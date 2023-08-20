@@ -1,0 +1,2584 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ドロップアウトディスパイア[all]</title>
+<style type="text/css">
+
+* { box-sizing: border-box; }
+body {
+	margin: 0 auto;
+	padding: 0;
+	font-size: 0.9rem;
+	color: #666;
+}
+header {
+	margin: 0;
+	background: #fff;
+	width: 100%;
+	position:fixed;
+	border-bottom: 1px solid #999;
+	padding: 6px 0;
+	color: #8A8A8A;
+}
+main { display: flex; margin: 0 auto; }
+#text { width: 1100px; margin: 50px auto 0; }
+footer { margin: 10px; height: 20px; font-size: 0.7rem; color: #aaa; text-align: right;}
+
+h2 {
+	font-size: 0.9rem;
+	margin: 20px 0 8px 0;
+	border-left: 5px solid #000;
+	padding-left: 10px;
+}
+.nameList h2 { margin-top: 50px; }
+
+input[type=checkbox] {
+	transform: scale(1.3);
+	margin: 10px 8px 10px 3px;
+}
+dl {
+	display: flex;
+	flex-wrap: wrap;
+	border-bottom: 1px solid #e0e0e0;
+	margin: 0;
+}
+dt {
+	width: 18%;
+	padding: 0 10px 0 10px;
+	margin: 5px 0 5px 0;
+	font-size: 0.75rem;
+	text-align: right;
+	display: block;
+	border-right: dotted 1px #888;
+}
+dd {
+	width: 80%;
+	padding: 0 5px 0 10px;
+	margin: 5px 0 5px 0;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+.tab {
+	border-top: 1px solid #e0e0e0;
+	z-index: -1;
+	text-align: right;
+	margin-bottom: 0;
+	margin-top: 0;
+	padding-top: -1px;
+	position: relative;
+}
+.tab span {
+	display: inline-block;
+	border-bottom: 1px solid #e0e0e0;
+	border-left: 1px solid #e0e0e0;
+	background: #f0f0f0;
+	font-size: 0.75rem;
+	color: #666;
+	padding: 2px 6px 0 8px;
+	border-radius: 0 0 0 12px;
+	margin-top: -1px;
+}
+
+/*------------------------------
+ ハンバーガーメニュー        -*/
+
+header .hcenter {
+	max-width: 1200px;
+	display: flex;
+	margin: 0 10px;
+}
+header h1 {
+	order: 2;
+	margin: 5px 0 0 80px;
+	padding-top: 2px;
+	padding-left:10px;
+	border-left: 6px solid;
+	height: 18px;
+	line-height: 1;
+	font-size: 1.1rem;
+}
+.drawer-hidden { display: none; }
+.drawer { order: 1; }
+.drawer-open {
+	display: flex;
+	height: 28px;
+	width: 26px;
+	align-items: center;
+	position: relative;
+	z-index: 100;
+	cursor: pointer;
+	color: #8A8A8A;
+}
+.drawer-open .menusub {
+	padding-left: 32px;
+	padding-top: 2px;
+	font-size: 1rem;
+	font-weight: bold;
+}
+.drawer-open span.menubtn,
+.drawer-open span.menubtn:before,
+.drawer-open span.menubtn:after {
+	content: '';
+	display: block;
+	height: 3px;
+	width: 25px;
+	border-radius: 3px;
+	background: #8A8A8A;
+	transition: 0.5s;
+	position: absolute;
+	margin: 0 0 0 auto;
+	text-align: right;
+}
+
+/* アイコン */
+.drawer-open span.menubtn:before { bottom: 8px;}
+.drawer-open span.menubtn:after { top: 8px;}
+#drawer-check:checked ~ .drawer-open span.menubtn {
+	background: rgba(255, 255, 255, 0);
+}
+#drawer-check:checked ~ .drawer-open span.menubtn::before {
+	bottom: 0;
+	transform: rotate(45deg);
+}
+#drawer-check:checked ~ .drawer-open span.menubtn::after {
+	top: 0;
+	transform: rotate(-45deg);
+}
+
+/* 中身 */
+.drawer-content {
+	width: 280px;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: -280px;
+	z-index: 99;
+	background: rgba(0,0,0,0.75);
+	transition: all .3s;
+	padding-left: 23px;
+	padding-top: 80px;
+	color: #fff;
+	overflow-y: auto;
+}
+#drawer-check:checked ~ .drawer-content {
+	left: 0;
+}
+.drawer-content ul { padding-left:0; }
+.drawer-content ul li { list-style:none; }
+
+
+/*------------------------------
+ 個別設定
+------------------------------*/
+.tc0 { background-color: rgb(232, 232, 232); margin-left: 10%; font-size: 0.8rem}
+.tc1 { background-color: rgb(232, 232, 232); margin-left: 10%; font-size: 0.8rem}
+.tc2 { background-color: rgb(255, 255, 255)}
+.tc3 { background-color: rgb(255, 255, 255)}
+.tc4 { background-color: rgb(255, 255, 255)}
+.tc5 { background-color: rgb(240, 226, 255); margin-left: 10%}
+.tc6 { background-color: rgb(255, 233, 233); margin-left: 10%}
+.tc7 { background-color: rgb(255, 233, 233); margin-left: 10%}
+.tc8 { background-color: rgb(240, 226, 255); margin-left: 10%}
+.tc9 { background-color: rgb(232, 232, 232)}
+.nc0 dt { color: rgb(103, 58, 183);}
+.nc1 dt { color: rgb(98, 87, 114);}
+.nc2 dt { color: rgb(73, 60, 100);}
+.nc3 dt { color: rgb(148, 72, 76);}
+.nc4 dt { color: rgb(136, 136, 136);}
+.nc5 dt { color: rgb(136, 136, 136);}
+.nc6 dt { color: rgb(136, 136, 136);}
+.nc7 dt { color: rgb(136, 136, 136);}
+.nc8 dt { color: rgb(136, 136, 136);}
+.nc9 dt { color: rgb(136, 136, 136);}
+.nc10 dt { color: rgb(136, 136, 136);}
+.nc11 dt { color: rgb(136, 136, 136);}
+.nc12 dt { color: rgb(136, 136, 136);}
+.nc13 dt { color: rgb(136, 136, 136);}
+.nc14 dt { color: rgb(136, 136, 136);}
+.nc15 dt { color: rgb(136, 136, 136);}
+.nc16 dt { color: rgb(136, 136, 136);}
+.nc17 dt { color: rgb(136, 136, 136);}
+.nc18 dt { color: rgb(233, 30, 99);}
+.nc19 dt { color: rgb(34, 34, 34);}
+.nc20 dt { color: rgb(136, 136, 136);}
+.nc21 dt { color: rgb(136, 136, 136);}
+.nc22 dt { color: rgb(233, 30, 99);}
+
+
+.C, .S, .SU { color: #2196F3; }
+.F, .FA { color: #F50057; }
+
+/*------------------------------
+ レスポンシブ
+------------------------------*/
+@media screen and (max-width:1100px) {
+	#list { display: none; }
+	#text { width: 90%; }
+}
+
+@media screen and (max-width:810px) {
+	body { font-size: 0.85rem; }
+	#list { display: none; }
+	#text { width: 100%; padding: 0 5px; }
+	header h1 { font-size: 1rem; margin-left: 10px; padding-left: 0; border-left: 0; padding-top: 4px; }
+	.drawer-open .menusub { display: none; }
+}
+
+</style>
+</head>
+<body>
+<header>
+	<div class="hcenter">
+		<h1>ドロップアウトディスパイア[all]</h1>
+		<div class="drawer">
+			<input type="checkbox" id="drawer-check" class="drawer-hidden">
+			<label for="drawer-check" class="drawer-open">
+				<span class="menusub">MENU</span>
+				<span class="menubtn"></span>
+			</label>
+			<setction class="drawer-content">
+				<form autocomplete="off">
+					<div class="tabList">
+						<h2>タブ</h2>
+						<ul>
+							<li><label><input id=tc0 class="select" type="checkbox" checked>閒聊</li></label>
+							<li><label><input id=tc1 class="select" type="checkbox" checked>雑談</li></label>
+							<li><label><input id=tc2 class="select" type="checkbox" checked>メイン</li></label>
+							<li><label><input id=tc3 class="select" type="checkbox" checked>主頻道</li></label>
+							<li><label><input id=tc4 class="select" type="checkbox" checked>成長</li></label>
+							<li><label><input id=tc5 class="select" type="checkbox" checked>秘匿(ARaSo,kuroi)</li></label>
+							<li><label><input id=tc6 class="select" type="checkbox" checked>秘匿(ARaSo,山吹)</li></label>
+							<li><label><input id=tc7 class="select" type="checkbox" checked>秘密(ARaSo,山吹)</li></label>
+							<li><label><input id=tc8 class="select" type="checkbox" checked>秘密(ARaSo,kuroi)</li></label>
+							<li><label><input id=tc9 class="select" type="checkbox" checked>情報</li></label>
+
+						</ul>
+					</div>
+					<div class="nameList">
+						<h2>発言者</h2>
+						<ul>
+							<li style ="color:rgb(103, 58, 183);"><label><input id="nc0" class="select" type="checkbox" checked>花染椿</li></label>
+							<li style ="color:rgb(98, 87, 114);"><label><input id="nc1" class="select" type="checkbox" checked>花染椿</li></label>
+							<li style ="color:rgb(73, 60, 100);"><label><input id="nc2" class="select" type="checkbox" checked>花染椿</li></label>
+							<li style ="color:rgb(148, 72, 76);"><label><input id="nc3" class="select" type="checkbox" checked>花染菖蒲</li></label>
+							<li style ="color:rgb(136, 136, 136);"><label><input id="nc4" class="select" type="checkbox" checked>ＫＰ</li></label>
+							<li style ="color:rgb(136, 136, 136);"><label><input id="nc5" class="select" type="checkbox" checked>男子</li></label>
+							<li style ="color:rgb(136, 136, 136);"><label><input id="nc6" class="select" type="checkbox" checked>白石 希空</li></label>
+							<li style ="color:rgb(136, 136, 136);"><label><input id="nc7" class="select" type="checkbox" checked>系繰 彰人</li></label>
+							<li style ="color:rgb(136, 136, 136);"><label><input id="nc8" class="select" type="checkbox" checked>糸繰 彰人</li></label>
+							<li style ="color:rgb(136, 136, 136);"><label><input id="nc9" class="select" type="checkbox" checked>✎帽子男的遺書</li></label>
+							<li style ="color:rgb(136, 136, 136);"><label><input id="nc10" class="select" type="checkbox" checked>system</li></label>
+							<li style ="color:rgb(136, 136, 136);"><label><input id="nc11" class="select" type="checkbox" checked>糸繰 奈々</li></label>
+							<li style ="color:rgb(136, 136, 136);"><label><input id="nc12" class="select" type="checkbox" checked>✎潦草的筆記</li></label>
+							<li style ="color:rgb(136, 136, 136);"><label><input id="nc13" class="select" type="checkbox" checked>✎夾在書裡的筆記</li></label>
+							<li style ="color:rgb(136, 136, 136);"><label><input id="nc14" class="select" type="checkbox" checked>殭屍Ａ</li></label>
+							<li style ="color:rgb(136, 136, 136);"><label><input id="nc15" class="select" type="checkbox" checked>殭屍B</li></label>
+							<li style ="color:rgb(136, 136, 136);"><label><input id="nc16" class="select" type="checkbox" checked>殭屍C</li></label>
+							<li style ="color:rgb(136, 136, 136);"><label><input id="nc17" class="select" type="checkbox" checked>✎筆記的碎片</li></label>
+							<li style ="color:rgb(233, 30, 99);"><label><input id="nc18" class="select" type="checkbox" checked>ＫＰ</li></label>
+							<li style ="color:rgb(34, 34, 34);"><label><input id="nc19" class="select" type="checkbox" checked>ＫＰ</li></label>
+							<li style ="color:rgb(136, 136, 136);"><label><input id="nc20" class="select" type="checkbox" checked>文具</li></label>
+							<li style ="color:rgb(136, 136, 136);"><label><input id="nc21" class="select" type="checkbox" checked>傻傻</li></label>
+							<li style ="color:rgb(233, 30, 99);"><label><input id="nc22" class="select" type="checkbox" checked>白石 希空（偽物）</li></label>
+
+						</ul>
+					</div>
+				</form>
+			</section>
+		</div>
+	</div>
+</header>
+
+<main>
+<section id="text">
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc0"><dt>花染椿</dt><dd>測試</dd></dl>
+	<dl class="tc0 nc0"><dt>花染椿</dt><dd>♪</dd></dl>
+	<dl class="tc0 nc0"><dt>花染椿</dt><dd>好酷</dd></dl>
+	<dl class="tc0 nc1"><dt>花染椿</dt><dd>測試</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>這ㄍ顏色ㄋ</dd></dl>
+	<dl class="tc0 nc0"><dt>花染椿</dt><dd>看不清楚TAT</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>測試</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>太亮ㄉ話團錄導出來會眼瞎</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>那還是這ㄍ好ㄌ</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>準備好再跟我說🥺🥺</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>我去上ㄍ廁所馬上回</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>那我洗個戰鬥澡等等可以一直跑</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>頂著PC的頭講話我覺得我好OOC（抓頭</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>會習慣ㄉ...（痾</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>啊那我也去 馬上回😭</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>回來ㄌ</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>歡回</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我也回</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我準備好丟大臉了</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>那我要來ㄌ</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>🥳👌</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>這裡是陽光無法抵達的地下世界，謀殺、背叛、人的性命待價而沽。<br>在這樣的地方，流傳著某個傳聞——<br>關於某個名為「遺書屋」、以奇怪方法取人性命的殺手組合……沒錯，就是你們。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>被稱作「遺書屋」的你們，是不拘一格的殺人狂。<br>你們必定會讓抹殺目標、或者自知命不久矣的人寫下遺書，將其殺害，之後必定將遺書送抵死者希望的目標，瀟灑退場。<br>在黑道上，你們的名號無人不知、無人不曉，因這行動對於以殺人為生的你們來說毫無意義。<br>然而你們知曉其意義，並且無人能妨礙你們完成任務。<br><br>……是時候讓新的目標寫下遺書了。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>克蘇魯神話𝗧𝗥𝗣𝗚<br><br>　　　　ᴅʀᴏᴘᴏᴜᴛ ᴅᴇsᴘᴀɪʀ<br>　ドロップアウトディスパイア<br><br>　　　『——即便死亡，話語仍將留存。』</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>現在時間是晚上十點，大地被黑暗籠罩，在某處陰暗的小巷內，你們已將獵物逼到絕路。<br>你們面前是某個暴力集團的打手，如今已經癱倒在地無法動彈。</dd></dl>
+	<dl class="tc2 nc5"><dt>男子</dt><dd>「混蛋……我還奇怪為什麽不立刻殺了我……你們是……遺書屋嗎！？」惡狠狠地瞪著你們。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>看樣子他認識你們。如果他打算繼續反抗，那也無所謂，你們只要繼續該做的事就好。<br><br>你們是「遺書屋」。<br>令目標寫下遺書、將其解決，把遺書送達指定對象之人。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>（可以開始自由RP或執行任何行動）</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>如果想開槍或扁他之類的可以先RP一下我說要骰的時候再骰🥺</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>豪！！抱歉打有點慢等我...（亂爬</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>「嗯，既然你知道那事情就好辦多了。」蹲下身子後將視線對齊男子盈滿怒火的雙眼，當中似乎還夾雜著一絲恐懼。<br>掏出口袋中隨身攜帶的榔頭，挑起男子的下顎後再次開口。<br>「請留下吧，你想對這個世界訴說的最後話語，我勸你是乖乖聽話，否則......」她加強了手中的力道，榔頭前端似乎有些陷入男子的肌膚「左邊或右邊，你喜歡哪邊呢？」</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc5"><dt>男子</dt><dd>瞪大了雙眼，面露恐懼。<br>「怎麽能死在這裡……！」甩開你拿著凶器的手，拼命想站起來想要逃跑。</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「呀✩這可不行～」眼見男子想要逃跑，她一腳踢向對方腹部，阻止對方的行為。<br>「不可以喔，這樣我們會很困擾的。」她笑著舉起手並擺出了槍的手勢「為了不讓你逃跑……菖蒲ちゃん，要不要在他腿上來一槍呢～♪」</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>啊 表情</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>一次只能用一個嗎（何<br>&amp;抱歉我也打得有點慢😭😭</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>一句RP只能用一個（?</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>豪🥺</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>「椿さん，濫用暴力是不好的行為。」雖說她舉著榔頭說出這句話實在是沒有任何說服力。<br>走近因吃痛而蹲倒在地的男子，她毫無表情的眨眨雙眼。<br>「這次是最後一次機會了，做？不做？」</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>怎麼+さん 好萌萌🥺</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>菖蒲講...是一一口...</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc5"><dt>男子</dt><dd>腹部被踹了一腳，吃痛地發出了悲鳴，但瞪著你們的眼神依舊沒有要屈服於你們的意思。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>想給他點教訓的話可以《手槍》或《鬥毆》</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>想開槍ㄉRP是到開槍之前對不對（甚麼問題</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>我說可以骰之後就可以直接丟！或是要RP一段再丟都可以</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>RP完之後直接像火老師那樣標手槍就可以ㄌ嗎！（問題好多啊</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>調顏色左邊有個東西可以打開</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>裡面找手槍ㄉ語法直接送出去就可以ㄌ</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我原本還以為要等ㄋ（好笨</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>「唉......」從表情中看不出任何情緒，但她小聲嘆了口氣，隨後從槍袋掏出黑色的小型手槍，將槍口抵在了男子的大腿上。<br>「明明你有機會的，真可惜。」</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=65 手槍 (1D100&lt;=65) ＞ 56 ＞ 成功</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>那麼，子彈精準地穿過他正努力爬起來的大腿，大量自傷口流出的鮮血染紅他的下半身，你們明白這樣的傷勢，就算是成年男性也難以忍受。<br><br>無法動彈的他面露不甘地拿起了你們遞過來的紙筆，不情不願地開始寫遺書。</dd></dl>
+	<dl class="tc2 nc5"><dt>男子</dt><dd>將沾有幾滴鮮血的書信推到你們的腳邊，語氣顫抖地告訴你們：「請……交給組長。」<br><br>「要殺就快殺。」接著很乾脆地放棄求生。</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「好，我收到了～」她撿起腳邊的信並將其摺好「我會確實幫你轉交的，放心吧。」<br>「那麼之後就交給菖蒲ちゃん囉～♪」對菖蒲眨了個眼，請她給男人一個痛快。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>可以RP直接把他殺掉然後處理屍體之類的👊</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>無言的點了點頭，她再次挪動了手中的槍枝，將還炙熱的槍口對準了男子的太陽穴。<br>「晚安，你留下來的話語我們必定會將它送達，就請你先一步離開吧。」<br>槍聲在狹小的巷內似乎顯得格外刺耳。<br>確認過男子已經確實死亡，她毫不費力扛起比自己的體型還高大的軀體，隨後看向自家的搭檔。<br>「椿さん，這次要怎麼處理好？」</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>菖蒲講 我也想問怎麼處理才好（…</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>也可以考慮不處理（幹</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>懂ㄌ 丟路邊餵老鼠（</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>如果想看不同表情ㄉ話可以分段發嗎🥺👉👈（幹？</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>草 可</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>開心就好🥺</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>好耶🥺🫶🫶🫶</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「唔～怎麼辦才好呢？」她歪著頭裝作在思考的樣子，但其實心中早有答案「直接丟路邊就好了吧？」</dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「反正在這種地方有一兩個屍體也不是多罕見的事，對吧？」擺擺手，要對方放下肩上的屍體。</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>她俐落的放下肩上的屍體，倒也不是贊同對方的話語，只是......<br>「但放在這裡會占用到其他人的空間，就讓他去那裡吧。」語畢，她再次扛起屍體，讓男子的身軀直挺挺靠在牆邊坐下，看起來還竟有種荒誕的滑稽感。<br><br>至於在這之後的事情自然便不需要她們操心──這並不在「遺書屋」的工作範圍之內。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>沒有要繼續RPㄉ話我就要切場景ㄌ！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>豪！</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>好</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>解決了今晚最後一個目標，你們離開現場，來到了主幹道上，絢麗的霓虹燈和街燈照亮來往的人群和車輛，夜晚十點的城市中心熱鬧非凡。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>醉酒的上班族和頂著奇怪髮型的年輕人、離家出走的不良少年抽著煙，還有終於踏上回家路的公司職員……你們與這些人擦肩而過，誰也不知道你們的真面目。跟他們不同，你們是生活在法律管束之外的人——所謂的黑社會。<br>而你們扮演著普通人，似乎與他們沒有任何區別。但從根本上，你們的本性就不同。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>兩人各進行《偵查》</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="SU">CCB&lt;=75 (1D100&lt;=75) ＞ 48 ＞ 成功</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=70 (1D100&lt;=70) ＞ 48 ＞ 成功</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>怎麼做到骰出一樣的數字</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>這就是姊妹嗎。。。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>姐妹硬要貼…（</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你們沿著道路行走，建築物之間的小巷映入了你們的視野。<br>視線的一隅掃到幾個奇怪的人影。那是幾個穿著破爛長袍的赤腳男子，搖搖晃晃地從大街往黑暗的小巷裡走去。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>姊妹ㄉ羈絆（自己說</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>如果沒有想RP的話我可以繼續！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>那我們RP一句！！</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>豪</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>在注意到做出詭異行動的男子後，幾乎是同時，她快速挪動到了椿的身側，恰巧也和對方對上了視線。<br>「......椿さん難道也注意到了？」</dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「啊，菖蒲ちゃん也看到了嗎，看起來有點奇怪呢。」她也湊近對方，小聲說道。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>可以繼續ㄌ！</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc6"><dt>白石 希空</dt><dd>「哎呀、這不是椿ちゃん和菖蒲ちゃん嗎？」</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>此時，熟悉的嗓音響起，你們轉向聲音的來源，那是白石希空。<br>他的一隻眼睛包著繃帶、身上的金飾閃閃發亮，模樣十分醒目。<br><br>你們認識他，他自稱商人，和你們一樣是黑社會的人，主要經手人口買賣、毒品運輸、武器走私這種賺錢生意，不喜歡涉足粗暴的工作，逃跑的速度堪稱一流。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你們可以看出他的表情似乎有些陰影，雖然在笑，但眼中毫無笑意。</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「呀～白石さん，真巧呢。」雖然很在意剛才的詭異人影，但她還是露出微笑與對方打招呼。<br>對方的表情似乎隱瞞了什麼，但現在還是不戳破為好，她想。</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc6"><dt>白石 希空</dt><dd>「看你們的樣子，是剛完成一門生意吧？」</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>白石看起來很ㄎㄌ的菜(ㄎㄌ:?</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>我不要再喜歡長髮男🤦‍♀️</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>沒有任何想隱瞞的意思，也不需要隱瞞，她逕直點了點頭，對方有些冰冷的笑容對她來說並沒有任何影響，因為自始至終她所相信的一直都只有自己，以及她身旁的搭檔。<br>「白石さん會在這裡才是讓人意外的事。」</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc6"><dt>白石 希空</dt><dd>「嗯，其實啊……」有些難以啟齒的模樣。<br>「既然都遇到了，也算是一種緣份——」開始侃侃而談，「我想拜託你們一件事……可以嗎？」<br><br>「不是什麽粗暴的工作，報酬是一定會給的！」態度突然積極起來，看上去很認真，不像在胡扯的樣子。</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「嘿～工作啊……明明我們擅長的就是粗暴的工作呢。」<br>「但沒關係，就聽你說說看吧☆」眨了眼，示意對方繼續說下去。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>大人們我應該先到三點...快要開始不能思考ㄌ</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>我也...</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>那要回完這句先休嗎！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>火大人如果可以ㄉ畫!!</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>下次開始就切場景</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>ㄅ要勉強！</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>好ㄚ</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc6"><dt>白石 希空</dt><dd>「太好了！」露出了開心的表情，「椿ちゃん就是好說話呢。」<br>隨後立刻將聲音轉小：「這裡講起來不太方便。」指了指身後的小巷。<br></dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>回完ㄌ...那下次從下一個場景開始 菖蒲講有要補充甚麼也可以在下次開始之前回！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>那我也先回完今天就到這邊咪！</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>先一步移動到椿的身前，似乎是在示意著由她先來打頭陣。<br>「雖然都是靠著椿さん的......這種個性我們才能接到各種委託。」說到中間時還稍微猶豫了下，有些苦惱該如何闡述搭檔的性格。</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>「但還是要對人抱持著相對的戒心才行，請椿さん務必記住這點。」</dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「呀♡菖蒲ちゃん是在稱讚我嗎？好開心～♡」她擅自扭曲了對方的言論，將雙手搭在對方肩上跟在後頭走著。</dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「但是沒關係，畢竟有可愛的菖蒲ちゃん陪著我嘛！」</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>各位晚安🫶</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你們離開大路，穿過建築物之間形成的小巷。<br>黑暗中閃爍的熒光燈在你們頭頂灑下破碎的燈光。並沒有走多遠，方才大路上的繁華喧鬧一掃而空，取而代之的安靜顯得不真實。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>這裡除了你們沒有其他人。垃圾箱堆滿了垃圾無人清掃，斷電的自動販賣機旁邊是寂寥陳舊的長凳。希空在長凳上彎腰坐下，拍了拍身旁的位置，示意你們也坐下。</dd></dl>
+	<dl class="tc2 nc6"><dt>白石 希空</dt><dd>苦笑著摸出香煙，用總是隨身攜帶金色的打火機點上，嘆著氣吐出一口煙。<br><br>「唉……真頭疼……」</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>如果沒有要說什麼的話我就繼續ㄌ！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我OK！</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc6"><dt>白石 希空</dt><dd>「今天本來預定要把某本書送到委託人手上來著，但是在送的路上——其實也就是剛才，被人搶了……然後在找書的時候就遇到了你們。」好巧！<br><br>「所以說，這是委託！我會付你們報酬的，能替我把書找回來嗎？」</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>遺書屋的委託接洽通常都是交由自己的姊姊──花染椿來接洽。<br>自己所要負責的只是能夠確實的解決掉目標人物，這樣就足夠了。<br>將雙手插進工裝褲的口袋，暗暗握住榔頭的握柄後觀察著椿接下來的行動。</dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「唔哇～好可憐，要給你一點安慰嗎？」邊說邊摸了摸對方的頭，似乎真的對對方的遭遇感到同情。<br>「唔……倒也不是不行？」她轉頭看向自家妹妹徵求對方同意「菖蒲ちゃん～可以吧～？幫幫人家嘛～」</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>你們是我看過ㄉ遺書屋對白石最好ㄉ一屆 感動ㄌ（幹</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我要封ㄌ</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>白石桑...</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>怎會...</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>救命…好好笑（…</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>「嗯，接洽委託與否是由椿さん來做決定的，既然你這麼說了我也不會有異議。」</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc6"><dt>白石 希空</dt><dd>「椿ちゃん……」備受感動地眨巴著眼睛。<br>「咳咳、那我就開始說了！」<br><br>「被搶走的書是一本紅色封皮的書，有厚度，感覺應該是古書。」努力回想，隨後補充：「標題不是日文，內容我不能看，所以不太清楚……」</dd></dl>
+	<dl class="tc2 nc6"><dt>白石 希空</dt><dd>「至於搶書的人……我真的被嚇了一跳啊，一個普通人突然撞進懷裡，順勢就把書搶走了。」<br>「很奇怪吧？他既沒有隱藏行蹤也沒有任何援護哦。大概就是個普通市民，動作給人的感覺也是這樣。」<br><br>「特徵的話——茶色的帽子和風衣，是個白頭髮的大叔，40幾快50歲的樣子……？」思考著，「對了對了，他脖子上掛著一個很大的鏈墜，是顆綠色的石頭。大概就這些！」</dd></dl>
+	<dl class="tc2 nc6"><dt>白石 希空</dt><dd>「我猜他還在附近。我就在那邊被搶的。」向你們指出被搶的地方。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>如果有什麼想問他的話可以問！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>豪！我們稍微討論一下（好爛</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>白石さん……也太不小心了吧。雖然很想吐槽對方，但這種話不能說出口呢……<br>「話說，白石さん對對方的特徵記的還真清楚呢？」她歪頭想了一下「如果脖子上掛著很大的鏈墜的話，感覺應該挺顯眼的？」</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc6"><dt>白石 希空</dt><dd>「嗯，大概是吧，如果我沒有記錯的話。」看上去不太肯定的樣子，也有些不安。<br><br>「只要能把書搶回來，那傢伙任由你們處置！」要逼他寫遺書或直接殺掉，都隨你們的意思。</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>靜靜聽著兩人的對話後她開口問道<br>「......這本書的委託人，方便你透露一些消息嗎？」<br>接著她看向白石手指的方向，似乎有些眼熟。<br>「除了那位白髮男子以外，白石さん還有看見其他可疑的人在附近嗎？」<br></dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc6"><dt>白石 希空</dt><dd>「委託人是某個組織的大人物，偶爾會委托我幹些雜活。」<br>「馬上就到交貨時間了，他一定會發火的吧……不，如果只是發火那都要謝天謝地了……啊哈哈……」他乾笑著，深深嘆了口氣。<br><br>「那個男人附近並沒有什麼可疑人士呢。」</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>哦哦...解鎖表情差分...好盟...（啥</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>「嗯，白石さん都這樣說的話，那本書想必是非常重要的東西吧。」眨了眨眼，似乎是有些好奇能讓白石露出這般表情的始作俑者到底是甚麼存在。<br></dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「那，我們要先過去看看嗎？」她瞇起眼看了看對方指的方向「唔……人有點多呢，找起來感覺要費點心力。」<br>「不過……報酬一定會讓我們滿意對吧？」她眨了眼，雖然笑著但似乎帶了一點威脅的語氣說道。</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc6"><dt>白石 希空</dt><dd>「那是當然！！」秒回，「只要是我搞得到的東西，隨便你們提！」十分大氣，看來這次真的惹上了不好惹的人呢。</dd></dl>
+	<dl class="tc2 nc6"><dt>白石 希空</dt><dd>看了看手機確認時間，一臉慘白。<br>「啊、抱歉，快到交貨時間了，我得走了！」<br><br>「我得趕去交貨地點告訴委託人東西沒了，短時間內你們可能聯絡不上我，要是有什麽收獲請明天一早再告訴我吧！……如果那時候我還活著的話。哈哈……」一邊說一邊朝你們揮了揮手，離開了，笑容看上去有點勉強。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>可以RP移動或是我直接幫你們移動！</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>「如果是白石さん的話一定沒問題的。」舉起一隻手也朝著白石的方向揮了揮，似乎沒聽出來對方的話外之意。<br><br>她看向椿，對方也正好對上自己的眼神，不約而同點了點頭後便往方才白石指的方向奔去。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>菖蒲醬怎有點不諳世事ㄉ感覺...萌...</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>她是馬己咩乖寶寶　我包起來</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>菖蒲講ㄉ思維：白石能活到現在一定很厲害他沒問題ㄉ</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>是北鼻👶</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>可以麻煩大人場景移動ㄌ！！</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>她是帥哥北鼻（要素怎越來越多</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>豪 我來ㄌ</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你們前往希空所指的方向，注意到前面的一間小居酒屋有人起了爭執。<br>其中一個醉醺醺的中年上班族紅著一張臉，腦門上套著領帶，另一個人則戴著帽子，正焦急地跟對方說話。<br><br>仔細一看，那人茶色的帽子和風衣，以及脖子上掛著綠色的石頭掛墜——和希空的描述完全一致。沒想到這麽快就發現了目標。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>醉漢正在向男子找碴：「喂，我說你！撞到人都不道歉的嗎？」<br>男子則焦急地低聲回答：「請放開我……我趕時間！」雖然想擺脫醉漢的糾纏，但奈何對方一直擋著路，不讓他通過。</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>發現目標。<br>她小聲低嚷了句，快速地朝著風衣男子的風向跑去。<br>一把抓住了醉漢比自己要粗壯上不少的手腕，她的表情依舊沒有一絲變化，語氣也是一樣的毫無起伏。<br>「不好意思，這位先生是我們要找的人，可以先住手嗎？」邊說著，她加重了手中的力道，指甲也跟著嵌入醉漢的手腕。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>報告我一點去洗澡（敬禮</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>收到</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>「啊？你們哪位……」<br>醉漢的話剛說一半，訝異於身為女性的你驚人的力道，你們目標的那位男子這時與你們對上了眼，他瞪大雙眼，臉色瞬間變得慘白：<br><br>「遺書屋……！？」<br>看樣子，這名「普通人」似乎知道你們的名號。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>「抱歉，讓我過去！」<br><br>這一次男子毫不客氣地撞開醉漢，往人少的地方逃去。<br>距離不太遠，要追上他並不難。<br><br>請過《DEX》</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="SU">CCB&lt;=60 敏捷 (1D100&lt;=60) ＞ 57 ＞ 成功</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=55 敏捷 (1D100&lt;=55) ＞ 46 ＞ 成功</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc5"><dt>男子</dt><dd class="FA">CCB&lt;=35 DEX (1D100&lt;=35) ＞ 40 ＞ 失敗</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>男子試圖與你們拉開距離，逃入了複雜的巷道。你們追著他來到一片熟悉的無人區，這裡除了廢墟就沒什麽醒目的標誌，而夜晚更是如此。<br>但男人似乎並不知情，愈發往深處跑了去。腳步聲和雜亂的呼吸逃不過你們的耳朵，他就像是被你們逼入絕境的獵物。<br><br>最終，他逃進了死路。</dd></dl>
+	<dl class="tc2 nc5"><dt>男子</dt><dd>「可惡……！」</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>雖然打算立刻折返，但你們已經堵住了他的退路。男子慌忙掏出小刀跟你們對峙，他的手在顫抖，顯然不習慣戰鬥，但投向你們的殺意卻貨真價實。 面對對方的殺意，你們當然也立刻進入了戰鬥狀態。<br><br>雖說「要怎麽處理隨你們喜歡」，但為了叫他寫下遺書，首先應該讓他無法反抗。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>戰鬥開始 ┈┈┈┈┈┈<br><br>行動順：椿&gt;菖蒲&gt;男子</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>進入戰鬥輪！椿醬可以先RP要做什麼 然後再直接丟對應的骰就好！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>豪🥳</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>刀的話是鬥毆 手槍就是手槍（好像廢話）</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我可以拿槌子揍人嗎（多喜歡槌子</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我們一致認為菖蒲講很像水電工</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>你ㄉ槌子很大把嗎（???</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>就是那種 敲釘子用ㄉ榔頭！</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>跟刀差ㄅ多ㄉ用途</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>那給你1d3+dbㄉ傷害 可以寫在角卡上（?</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>軍刺我自己感覺可以1d4+db</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>救命　怎ㄇ可以有傷害　謝大人賞賜</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「哎呀～希望你不要做無謂的反抗呢，這樣對我們雙方都好哦？」眼見對方掏出武器，那自己也該做點回應才行。<br>——她握緊常用的拆信刀，向對方刺去。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>可以直接丟鬥毆！</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="SU">CCB&lt;=25 鬥毆 (1D100&lt;=25) ＞ 18 ＞ 成功</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>椿講…🫣</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>好強．．．？？</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>好兇啊...</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>你不是殺手欸...</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc5"><dt>男子</dt><dd class="FA">CCB&lt;=18 閃避 (1D100&lt;=18) ＞ 40 ＞ 失敗</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>阿阿阿...</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>我沒想過你是這樣的椿講…</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>椿講：欸？啊？真的刺中了欸怎麼辦菖蒲講</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>傷害1d4！直接1d4送出去就好</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>1d4 (1D4) ＞ 1</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>？好吧</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>戳ㄌ但沒很用力.JPG</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>椿講：🥺</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>刀鋒僅僅是劃破了男子的衣服以及底下的皮肉，他依舊沒有要向你們投降的樣子。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>那輪到菖蒲醬ㄌ...</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>「今天的目標怎麼都這麼不聽話呢......」話語中似乎帶著一絲不滿，她確認了一眼椿的安危，確定對方沒有被男子傷害後快速抽出了腿側的軍刺，瞄準男子的腰側衝了過去。</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=65 鬥毆 (1D100&lt;=65) ＞ 19 ＞ 成功</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>菖蒲講...</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc5"><dt>男子</dt><dd class="FA">CCB&lt;=17 閃避 (1D100&lt;=17) ＞ 25 ＞ 失敗</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>被美少女圍毆欸 好好喔</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>直接1D4+DB嗎！</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>軍刺的話給你傷害1d4+1+1d4好ㄌ...</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>（我喜歡軍刺）</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我速速</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>（我也好喜歡）</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>1d4+1+1d4 (1D4+1+1D4) ＞ 4[4]+1+4[4] ＞ 9</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>？</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>菖蒲講…好兇啊…</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>？</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>有點太兇　下到</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我先去洗澡很快回！</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>好！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>我也去洗個澡 馬上回</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc5"><dt>男子</dt><dd class="SU">CCB&lt;=55 CON (1D100&lt;=55) ＞ 36 ＞ 成功</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>不愧為接受過殺手訓練的菖蒲ちゃん，一刀精準地命中男子的要害，血流如注。<br>即便是這樣他依然沒有倒下，多麼堅強的求生意志。按著傷口的他表情痛苦地握緊手中的小刀。</dd></dl>
+	<dl class="tc2 nc5"><dt>男子</dt><dd class="SU">CCB&lt;=25 小刀 (1D100&lt;=25) ＞ 12 ＞ 成功</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>？？？</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc5"><dt>男子</dt><dd>1d2 襲擊對象 (1D2) ＞ 1</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>男子持刀往椿的方向刺去，椿可以《閃避》</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="SU">CCB&lt;=60 閃避 (1D100&lt;=60) ＞ 45 ＞ 成功</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>呼</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>不好意思家人在洗澡 我等等才會去洗😭</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>凡人終究是凡人，你輕鬆地閃過了他笨拙的動作。<br>由於失去了大量的血液，男子看起來氣喘吁吁、精神不濟，大概只要再一擊就會倒下。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>沒事耶...那回到椿的回合 要直接打或先RP都行！</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「難道沒有人教過你拿刀攻擊淑女是很沒禮貌的行為嗎？」鼓起臉頰裝作生氣的樣子，手中的拆信刀再次往對方刺去。</dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="C">CCB&lt;=25 鬥毆 (1D100&lt;=25) ＞ 4 ＞ 決定的成功/スペシャル</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>？</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>？</dd></dl>
+	<p class="tc4 tab"><span>成長</span></p>
+	<dl class="tc4 nc4"><dt>ＫＰ</dt><dd class="C">花染椿 - 今日 1:15<br>CCB&lt;=25 鬥毆 (1D100&lt;=25) ＞ 4 ＞ 決定的成功/スペシャル</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>這邊去洗澡ㄌ</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>好ㄉ...</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你幾乎是以氣勢就讓男子跌坐到了地面上，經過了這幾乎可以說是一面倒的戰鬥，男子現在已經動彈不得了，如果給予最後一擊，他將會立刻停止呼吸吧。<br><br>戰鬥結束 ┈┈┈┈┈┈</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我洗個澡</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>世界就變了</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>打完ㄌ（登愣</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>你們好兇殘 我害怕ㄌ</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>椿講有點太兇</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我接著RP就可ㄌ嘛！</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>你們不只是對白石最好的一屆也是最兇殘的一屆</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>可！你們可以開始靈魂拷問他ㄌ</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>謝大人誇獎（人家沒誇</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>回</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>歡</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>「所以我說......」她在男子身前蹲了下來，以手中的軍刺挑起男子的下顎，閃著冷光的尖端刺破了柔軟的肌膚，鮮紅跟著緩緩滲出。</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>「早點聽話你就不會受這麼嚴重的傷了。」看了眼一臉得意滿滿的自家姊姊，她的嘴角不自覺跟著揚起。<br>平時有教她一些打鬥技巧真是太好了。</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>「進入正題，我就不拐彎抹角了，你偷走的那本書，交出來。」在維持著以軍刺抵住男子下顎的姿勢下，她空出來的那隻手也沒閒著，從口袋中拿出她愛用的榔頭後毫不猶豫的朝著男子腰側的傷口戳下。</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc5"><dt>男子</dt><dd>「唔……」因為被你抵著傷口而表情扭曲。<br>「書……那個啊。」一邊說一邊用染血的手從衣兜裏掏出皮包，扔在地上，「我沒有帶在身上，要的話這裡頭的證件上有地址。」<br><br>「而且書是別人給我的……我沒有偷。」一臉詫異。</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「嗯？」聽到對方的說詞後，她挑起了眉思考著。<br>這跟白石さん說的不一樣呢……<br>對於眼前的陌生人說的話當然是不相信的，不如說她自從進入這個行業後，相信的只有身為搭檔的妹妹。</dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「菖蒲ちゃん～麻煩妳抓好他哦。」她在菖蒲架住對方後，對他進行搜身。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>我也想被美少女搜身</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>好好喔</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>(好好喔?</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>好好喔</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>無言點點頭後一把架住了男子，完全不管對方的傷勢嚴重。</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你確實沒有在他身上搜出任何形狀像書的東西。<br><br>你還順便檢查了他的錢包，裡面有記錄著男子住址和身份的東西，你們得知男子的名字是「糸繰彰人」，住所就在不遠處，走路就能抵達的距離。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>問一個很笨ㄉ問題 皮包跟錢包</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>想問一下皮包跟錢包是一樣ㄉ東西嗎（何</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>是不同ㄉ東西嗎</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>歐 是一樣ㄉ...</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>謝謝 有點太同時</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>姊妹同心（好ㄌ</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>😎</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>對喔</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>看著椿把錢包內的證件收進了腰包中，她再次回過頭，眼中的冰冷絲毫沒有減少任何一分。<br>「你確實沒有欺騙我們，但，你跟那本書有著關連也是鐵錚錚的事實。」<br>男子的臉色因為失血過多的關係已經接近慘白，她放下榔頭，輕輕拍了拍對方的臉頰示意要他保持意識的清楚。<br>「你還記得給你書的那個人是誰嗎？」</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc7"><dt>系繰 彰人</dt><dd>也很努力在保持清醒：「我記得是……一個身穿西裝的高大男人。」<br><br>「……書，我翻譯了一點，其他沒有動過。如果你們的目的是那本書和那個男人，調查那本書應該能找到他留下的痕跡，請便吧。」</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>白石　我們相信你喔...</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>他是長髮男 長髮男不能信（什麼標準</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc6"><dt>白石 希空</dt><dd>🥺</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我們對你這麼好</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「翻譯……？」她擠到菖蒲的身邊，好奇的問道「我說～那本書的內容是什麼啊？」<br>如果是自己也不懂的語言的話，到時候偷看也毫無意義，不如現在就問清楚好了，她想。</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>回答你的只有沉默，男子看上去不打算再多說什麽了。<br>你們對男子敘述中「高大的男性」並沒有任何印象。</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>眼看男子似乎並不想再多做任何回應，她明白這場單方面的交易已經畫下了句點。<br>以眼神示意了正擠在自己身旁的椿讓她拿出隨身攜帶的信紙，她再次開口，這次她不只是殺手，更是宣判男子結局的死神。<br>「相信你也知道我們的身份了，就請你在這上面留下你想對誰，又或者是這個世界訴說的話語，遺書屋會幫你轉交至那個人手中的，雖然...你並不算在正式委託人裡呢。」</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>男子用染血的手支撐著身體，他就剩那點力氣，只有一只手勉強能動。<br>他接過紙筆，像是放棄了一般，沒有抵抗地開始撰寫遺書。雖然表情陰沈，但他的樣子似乎要把所有遺憾一點不剩地傾註在這人生最後的文字裡頭。</dd></dl>
+	<dl class="tc2 nc7"><dt>系繰 彰人</dt><dd>「交給……我的女兒。黑髮紅眼的少女，名字叫糸繰奈奈。」</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>？</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我大喊嗨老婆</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>黑髮紅眼！！！！！！！！</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>老婆！！！！！！！！！！！</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>？草</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>抱歉　關鍵字被觸發</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>突然發作</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>男子已經沒有利用價值了，RP宣言就可以殺掉。</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「好～我收到了。」雖然還因為對方不願回答她的問題而鼓著臉頰，但對待遺書的態度一如既往的認真，她仔細的收好信紙。<br>「一定會幫你送到的，放心吧。」</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>「了解，你的委託，我們確實收到了...『糸繰彰人』先生。」她將手中的軍刺往前一推，尖端輕易的刺入男子的喉頭，汩汩流出的鮮血也正式宣告了男子的生命在此畫下句點。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>想問一下可以讓椿講偷看遺書嗎😶‍🌫️</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>可以看</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>椿要自己看嗎🥺</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>度🥺菖蒲講感覺沒什麼興趣（是嗎<br>山吹講 我需要你</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc8"><dt>糸繰 彰人</dt><dd>毫無抵抗，留下淡淡一句：<br>「奈奈……對不起……」然後停止了呼吸。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>幸運的是這裏罕有人跡，善後起來很方便。<br>兩位可以《偵查》</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="SU">CCB&lt;=75 (1D100&lt;=75) ＞ 37 ＞ 成功</dd></dl>
+	<p class="tc5 tab"><span>秘匿(ARaSo,kuroi)</span></p>
+	<dl class="tc5 nc9"><dt>✎帽子男的遺書</dt><dd>致　奈奈：<br><br>　爸爸對不起你。<br>　你好不容易去了媽媽身邊，爸爸卻想借助神明的力量硬把你拉回來，這是對爸爸的懲罰。<br>　但是爸爸只能靠那本書了。<br>　爸爸並不想把你變成怪物……<br>　真的……很對不起。<br>　爸爸已經無可救藥了，但希望你還能擁有光明和未來。</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=70 (1D100&lt;=70) ＞ 68 ＞ 成功</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>偷偷給你看遺書ㄌ🥺</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我回來（剛ㄑ吹投了狗咩</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>看到ㄌ…oh…</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>三個人的故事沒有我的姓名</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你們注意到小巷深處有一位少女。<br>你們的殺人現場被人撞見了，與少女紅色的眼睛視線交匯的瞬間，她逃走了。<br><br>可以接著《聆聽》</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>菖蒲講你可以在意一點嘛</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>（插腰</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="F">CCB&lt;=60 (1D100&lt;=60) ＞ 99 ＞ 致命的失敗</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>？</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>？</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>？</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=70 (1D100&lt;=70) ＞ 51 ＞ 成功</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>我剛剛被特效（？）嚇到 好好笑</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我低個頭然後抬頭</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>＞＞＞致命的失敗＜＜＜</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>我想一下（loading）</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>讓KP需要思考ㄌ...椿講...你好厲害啊...</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>椿講：欸嘿⭐️</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>信的內容使椿莫名背脊發涼。<br>僅限椿的SAN-1</dd></dl>
+	<p class="tc6 tab"><span>秘匿(ARaSo,山吹)</span></p>
+	<dl class="tc6 nc4"><dt>ＫＰ</dt><dd>你聽見少女逃走前說了一句：「爸爸……」</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc10"><dt>system</dt><dd>[ 花染椿 ] SAN : 85 → 84</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>好了🥺</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>好耶🥺</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>椿講.......</dd></dl>
+	<p class="tc7 tab"><span>秘密(ARaSo,山吹)</span></p>
+	<dl class="tc7 nc3"><dt>花染菖蒲</dt><dd>我就知道（扭曲）</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>現在是能自由行動（？）嘛</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>可！</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>她打開了信紙，就像一直以來做的一樣，閱讀內容，觀察收件人的反應，這也是工作中她最喜愛的一環。<br>「唔……」但這次的遺書內容詭異到讓她感到不適。</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>「椿さん？」沒有錯過對方細微的表情變化，她注意到椿湖水綠眼眸中的光亮在一瞬間消失無蹤。<br>有些擔憂的向她靠近了些，微微彎下身去窺探著椿的神情。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>好乖啊😭😭</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>姊姊ㄉ異狀怎ㄇ可能沒看到...！</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「欸？啊，沒事沒事。」想著對方應該對信件沒什麼興趣，也不希望對方跟自己一樣被內容影響，她面帶微笑回應對方。<br></dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「那麼、接下來就是要去找書了吧？」伸了伸懶腰，露出不懷好意的笑容說道「希望白石さん還沒被處理掉呢，我可是不想做白工啊～」<br>……但事情跟白石さん說的可不一樣呢，總覺得有不好的預感。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>等等就是去那ㄍ地址對不對！</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>你們可以追那ㄍ少女</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我們剛剛也在糾結到底要去哪邊</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>最後很痛苦ㄉ（任務優先）（扭曲）</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>我補個敘述！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>豪！</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>逃跑的是黑頭髮、紅眼睛的少女。<br>特徵與糸繰彰人的遺書收件人一致，而且既然她目擊了現場，你們不得不追上去。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>可繼續ㄌ🥺</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>謝最貼心ㄉ大人</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>「看來計劃有些變更了。」她微微瞇起眼，看向剛才那位少女逃跑的方向，雖然只有一瞬間和她對上眼神，少女如同鮮血般鮮豔的紅色眼眸依舊讓她難以忘懷。<br>「我們追上去吧，去追她...我們的下一個目標『糸繰奈奈』」<br>兩人再次交換過眼神，朝著少女的方向跑了過去。<br></dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>被看見了。如此確信的你們當然不能放過她。<br><br>你們追上去，少女在廢墟間複雜的巷道裡奔跑，最後在某個開闊的地方摔倒了。<br>少女意識到你們追了上來，不再試圖逃跑，她從地上爬起來，紅色的眼睛直視著你們。沒有抵抗，少女只是注視著你們，似乎在評估什麽。<br>她手上拿著疊起來的白紙，像是遺書。</dd></dl>
+	<dl class="tc2 nc11"><dt>糸繰 奈々</dt><dd>「你們是……遺書屋的殺手們……？就是你們殺了爸爸？」看著你們平靜地問道。奇怪的是，表情既沒有迷惑，也沒有膽怯。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>哇 雙馬尾</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>這不能老婆了</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我會被關</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc11"><dt>糸繰 奈々</dt><dd>三年起步 死刑不虧</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>不虧不虧 姐姐要抱走了</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我應該再一下去躺<br>明天下午我ㄎ以</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>毫</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「妳認識我們嗎？」她面帶笑容的詢問，不想驚動到對方。而另一個問題……她似乎想迴避不去回答。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>我明天下午也可以</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>剛好要進入刺激ㄉ環節 那就明天接著...🥺</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>刺激ㄉ........（抖動</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>😳😳😳</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>菖蒲講有要說什麼嗎！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>沒有！她會嚇到小孩（你也知道？</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc11"><dt>糸繰 奈々</dt><dd>「沒有時間了，請把這遺書……」</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>正當她打算拜托你們的時候，響起了脈搏鼓動的聲音。<br>巨大的脈搏鼓動聲從少女的身體裏傳來，大到你們能親耳聽見。</dd></dl>
+	<dl class="tc2 nc11"><dt>糸繰 奈々</dt><dd>「啊……還、不行！沒時間了……！快、快用光……照我！」顫抖著，說話斷斷續續，臉色慘白地抱住自己的肩膀。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>然而她背後，肌肉怪異地膨脹起來，好像有什麽要破殼而出。最終，少女無法壓制體內的東西，纖細的身體被撐破了。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>撐破少女身體的東西高大得遮蔽了頭頂的月光。難以想像它是怎麽藏在少女嬌小的身體裡。那東西比夜晚更漆黑，不定形的身體上長滿眼睛和嘴，那些眼球齊刷刷地轉向了椿。<br>還來不及發出聲音，那東西就猛地砸了下來。<br>高高佇立、沈重的黑色肉塊揮下來的同時，響起了傾軋血肉的聲音，<br><br>椿的一條手臂消失了。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>啊啊啊啊啊啊</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>它沒有給菖蒲任何反應的時間，再一次砸下來。<br>另一條手臂消失了，然後是肩膀……在失去平衡的同時，椿的一條腿也不見了，接著是身體……那東西不停地、不停地往下砸——<br><br>最後，擊碎了椿的頭顱。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>？</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>好神（幹？</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>直到這個瞬間，菖蒲的大腦終於理解了眼前的狀況，但已經太遲了。<br><br>花染菖蒲沐浴在花染椿的鮮血中，而椿本人已經被碾成了碎塊。漆黑的肉塊覆蓋在他的殘骸之上，蠕動著，最終不再挪動。<br><br>目睹姐姐在身邊被殘忍殺害，僅限菖蒲的SANc（1d4/1d8）</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>好好看（.......？</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>🥺</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我直接過SC就可以ㄌ嘛！</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>對！</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=80 SC (1D100&lt;=80) ＞ 46 ＞ 成功</dd></dl>
+	<p class="tc5 tab"><span>秘匿(ARaSo,kuroi)</span></p>
+	<dl class="tc5 nc4"><dt>ＫＰ</dt><dd>你的視野瞬間被黑暗包圍。<br>還來不及留下遺言，自己的身體正被無情地碾碎，在你認識到這個現實的瞬間，漆黑的肉塊已經逼近你的眼前。<br>在黑暗中，你感到有人站在你面前。是之前的少女。<br>少女帶著和先前同樣的表情，手裡仍然握著那張紙。<br><br>想起自己被怪物殺死，因這難以理喻的遭遇SANc（1d4/1d8）</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>成功的話-1d4</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我直接骰數值火大人那邊再改對不對（好笨</dd></dl>
+	<p class="tc8 tab"><span>秘密(ARaSo,kuroi)</span></p>
+	<dl class="tc8 nc2"><dt>花染椿</dt><dd class="SU">CCB&lt;=84 SC (1D100&lt;=84) ＞ 59 ＞ 成功</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>對ㄉ</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>1d4 (1D4) ＞ 4</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>.</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc10"><dt>system</dt><dd>[ 花染菖蒲 ] SAN : 80 → 76</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>好好（好屁</dd></dl>
+	<p class="tc5 tab"><span>秘匿(ARaSo,kuroi)</span></p>
+	<dl class="tc5 nc4"><dt>ＫＰ</dt><dd>那幫我丟1d4🥺</dd></dl>
+	<p class="tc8 tab"><span>秘密(ARaSo,kuroi)</span></p>
+	<dl class="tc8 nc2"><dt>花染椿</dt><dd>1d4 (1D4) ＞ 4</dd></dl>
+	<p class="tc5 tab"><span>秘匿(ARaSo,kuroi)</span></p>
+	<dl class="tc5 nc10"><dt>system</dt><dd>[ 花染椿 ] SAN : 84 → 80</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>姊妹...同心...</dd></dl>
+	<p class="tc5 tab"><span>秘匿(ARaSo,kuroi)</span></p>
+	<dl class="tc5 nc11"><dt>糸繰 奈々</dt><dd>「遺書屋的殺手小姐，請你把這個交給神明大人」</dd></dl>
+	<dl class="tc5 nc4"><dt>ＫＰ</dt><dd>少女帶著悲傷的表情，把紙遞給你，上面什麽也沒寫，不過那紙摸起來很奇怪。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我可以rp一下ㄇ！</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>覆蓋住椿屍體的黑色肉塊就橫在你的面前。<br>男子的遺書在之前的攻擊中被扯碎，散落在地面。碎得並不厲害，拼起來仍可以閱讀其中的內容。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>可以ㄉ！</dd></dl>
+	<p class="tc8 tab"><span>秘密(ARaSo,kuroi)</span></p>
+	<dl class="tc8 nc2"><dt>花染椿</dt><dd>「神明…大人…？」她接過紙張，原本想稍微看一下內容，但發現上面並沒有任何書寫痕跡。<br>「神明大人，是指誰呢？」無法理解眼前的狀況，她嘗試性的問了一下女孩口中的人物是指何人。</dd></dl>
+	<p class="tc5 tab"><span>秘匿(ARaSo,kuroi)</span></p>
+	<dl class="tc5 nc11"><dt>糸繰 奈々</dt><dd>「光芒照耀到神明大人的時候，你們一定也能得救……」</dd></dl>
+	<dl class="tc5 nc4"><dt>ＫＰ</dt><dd>她沒有理會你的疑問，只是自顧自地拼命想要說些什麽，但話語變得斷斷續續，最後她的身體消失在淡淡的光芒裡。<br><br>少女完全消失之後，你失去了意識。</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>她已經見識過各樣如同煉獄般的慘狀，橫掛在屋簷上的腸子，塗滿了整個牆壁的內臟，在地上滾動著的眼珠。<br>──以及，自己親手擊碎的，父親的頭顱。<br>這次也與往常無異，沒事的，她在心底對著自己訴說，內心隱隱約約的躁動讓她不適。<br>只不過──只不過是椿的...她唯一的姊姊的屍體，在進入這個行業時她們早就已經有所覺悟。<br>只是，這比她所想的有些提前到來。</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>她蹲下身，有些顫抖的指尖在四散的黑色肉塊中摸索著，時不時觸碰到的屍體觸感一次次提醒著她剛剛到底發生了甚麼。<br>她將碎成幾片的遺書拼湊回原本的模樣，深呼吸了口氣，將注意力投注在眼前的內容。<br>──如果是她，會怎麼做呢？</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你努力將遺書拼回原樣。</dd></dl>
+	<dl class="tc2 nc9"><dt>✎帽子男的遺書</dt><dd>致　奈奈：<br><br>　爸爸對不起你。<br>　你好不容易去了媽媽身邊，爸爸卻想借助神明的力量硬把你拉回來，這是對爸爸的懲罰。<br>　但是爸爸只能靠那本書了。<br>　爸爸並不想把你變成怪物……<br>　真的……很對不起。<br>　爸爸已經無可救藥了，但希望你還能擁有光明和未來。</dd></dl>
+	<p class="tc9 tab"><span>情報</span></p>
+	<dl class="tc9 nc9"><dt>✎帽子男的遺書</dt><dd>致　奈奈：<br><br>　爸爸對不起你。<br>　你好不容易去了媽媽身邊，爸爸卻想借助神明的力量硬把你拉回來，這是對爸爸的懲罰。<br>　但是爸爸只能靠那本書了。<br>　爸爸並不想把你變成怪物……<br>　真的……很對不起。<br>　爸爸已經無可救藥了，但希望你還能擁有光明和未來。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>菖蒲講沒有要RP的話我可以繼續！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>有！！等我一下狗咩（打超慢</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>她鮮少閱讀過委託人的遺書，這通常都是交由她的姊姊──椿，來負責的，而這也是她在擔當送信人時無可取代的樂趣。<br>有些僵直的大腦正緩緩吸收著遺書的一字一句帶來的資訊，維持著蹲坐在地的姿勢，她撫摸過沾滿血液的信紙，喃喃自語著。<br>「......書，是白石讓我們找回來的那本書？」<br>瞥了眼散在信紙旁的黑色肉塊，盡可能不去注意混雜在一起的，椿的軀體。<br>怪物，指的又是甚麼？</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>可以ㄌ！</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>沒事😭我想說我沒看到你在輸入😭</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>剛才一直覆蓋在椿殘骸上的怪物突然動了起來。<br><br>它的體積在逐漸變小，龐大笨重的肉塊像煙霧一樣消散。<br>最後躺在菖蒲面前的，是不久前慘遭殺害的花染椿——四肢健全，毫髮無傷。<br><br>僅限菖蒲的SANc（0/1）</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=76 SC (1D100&lt;=76) ＞ 55 ＞ 成功</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>其實我很怕（手滑）（送出）<br>都先在其他地方打好再來發送（好可憐啊</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>這我...</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>「......椿さん？」她的聲音聽來有些顫抖，她小心翼翼的拍了拍對方白淨的臉頰，纖細的手指從椿紫羅蘭色的髮絲間滑過。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>椿可以醒ㄌ！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>睡美人...（喔喔</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>好🥳</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>睡美人...</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「嗚……嗯……」聽見熟悉的聲音呼喚著自己的名字，她從昏迷中醒來。<br>雖然還無法輕易起身，但轉頭看向四周，剛才的怪物似乎已消失不見。</dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「……喚醒公主的親吻呢～？」她將眼睛再度閉起，說道。<br>畢竟被菖蒲叫醒的機會很難得，她決定胡鬧一下。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我要昏倒了</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>菖蒲王子…</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>恆...</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>「......看來還是原來那個愛胡鬧的椿さん。」眼前的椿正對著自己嘟起粉嫩的雙唇，與氣氛不符的脫節舉動也讓她稍微鬆了口氣，她不禁露出一抹淡淡的笑容。<br>公主索求的喚醒之吻並沒有落到椿的嘴唇上──取而代之的是，她伸出手輕輕撫摸著椿柔軟的髮絲。<br>「有什麼不舒服的地方嗎？」</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>請問遺書屋這樣是正常的嗎？？？？？</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>應該...正常吧（???</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>好好喔...</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>貼貼...</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>心裡早已知道對方不會配合自己的鬧劇，原本打算裝作生氣的樣子回應，但菖蒲不經意間露出的笑容讓她也跟著笑起來。<br>「沒事喔～菖蒲ちゃん呢？有受傷嗎？」</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>現在是要去找書嗎！</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>對！</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>貼爽之後就可以帶你們切場景（ㄜ</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>好好貼</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>「我沒事，用不著擔心我。」她伸出手一把拉起跪坐在地的椿，對方溫熱的掌心正是她還好好活著的事實。<br>「──該繼續進行我們的任務了。」</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>可以切場景了🥳</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我們快被鉀到斷氣了</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>在你們為了拿回書而前往糸繰彰人住處的路上，正好經過沒什麽行人的地段。<br><br>看到路燈閃爍的熒光，椿不知為何心中湧現出一陣恐懼。大概是錯覺吧，這麽想著，你們繼續前進。當光線灑落在椿身上的同時，你們聽到了巨大的脈搏聲。<br>就好像有什麽潛伏在身體裡，全身劇痛。詭異的聲音在椿腦中囁嚅：「放我......出去……」</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>過了一會，疼痛和囁嚅聲都消失了，但菖蒲顯然已經發現了姐姐的異常。<br>意識到自己身體發生異變，僅限椿的SANc（1/1d3）</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>🉑繼續🈸了（幹</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>CCB&lt;=80 SC</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>電腦好當 我有骰成功嗎 這邊看到的畫面停止ㄌ</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>好像沒有</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>那我再骰一次好了🥺</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="SU">CCB&lt;=80 SC (1D100&lt;=80) ＞ 64 ＞ 成功</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>我第一次看到CCF壞掉...</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>超神（椿講：？</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>你們立了好多創舉</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>可能他也被鉀到了（？</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc10"><dt>system</dt><dd>[ 花染椿 ] SAN : 80 → 79</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>不客氣（火老師：沒在誇</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「嗚……這…什……」疼痛讓她無法支撐自己，使她跪倒在地。<br>「我的身體裡……有什麼……？」</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>「椿さん，深呼吸。」那巨大的脈搏聲顯然不是錯覺，與剛才如出一轍的現象不禁讓她開始警戒。<br>但現在最重要的是自家搭檔的安危。<br>以單膝跪蹲在地，她撫摸著椿顫抖著的背部。<br>「沒事的，我們會完成委託的，就跟往常一樣，我們......會回家的。」</dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>她照著對方的話開始深呼吸，試圖讓自己冷靜下來。而對方撫摸著自己的手也讓她感到安心。<br>「抱歉，我沒事了。」她扶著菖蒲站起身，露出一如既往的笑容「我們繼續完成任務吧。」</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>音樂一切我就心肺奏停一次</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你們來到了男人的住所。<br>說那棟老舊公寓是座廢墟也不為過，附近也盡是些不知道還有沒有在使用的建築物，這一帶都沒什麽人往來。<br>你們在入口處張望，就只有一戶人家的門前塞滿報紙，門口花盆裏長滿雜草，看樣子其他房間沒有人在使用，這一戶就是男子的家吧。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>門鎖著，但門已經很舊了，可以通過《STR》破壞，也可以《開鎖》。</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="C">CCB&lt;=20 鎖匠 (1D100&lt;=20) ＞ 1 ＞ 決定的成功/スペシャル</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>？</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>？</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>？</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>超會開鎖</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>以後當不了殺手還能轉行去當鎖匠（幹？</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>這邊要Rp嗎還是😭（？</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>等等我😭</dd></dl>
+	<p class="tc4 tab"><span>成長</span></p>
+	<dl class="tc4 nc4"><dt>ＫＰ</dt><dd class="C">花染椿 - 今日 16:18<br>CCB&lt;=20 鎖匠 (1D100&lt;=20) ＞ 1 ＞ 決定的成功/スペシャル</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>等你😭</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我們一直讓火老師問號</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你不費吹飛之力地打開了鎖，房間裡非常髒亂，簡直像是剛遭過洗劫，說是垃圾堆也不為過。<br><br>◎可調查場所<br>桌子／書架／衣櫃</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>大成功獎勵保留😭</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>好耶🥳</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>之後有大失敗可以拿來抵掉</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>髒亂的房間讓她不禁皺了眉頭，巡視了一下房間四周後，她走向了桌子。</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>桌上亂七八糟地扔著煙頭和幾個月前的報紙。大部分都是垃圾，看不見其他東西，沒什麽值得注意。你的視線掃到附近垃圾堆裏似乎有個什麽擺件。<br><br>用輕型材質制作的擺件高約20cm，可能是什麽紀念品，一只手從底座上伸出來，掌心裡長了一張嘴。<br>底座上的文字有些磨損，可以進行《偵查》</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="SP">CCB&lt;=75 (1D100&lt;=75) ＞ 11 ＞ スペシャル</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>？</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>？？</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>???</dd></dl>
+	<p class="tc4 tab"><span>成長</span></p>
+	<dl class="tc4 nc4"><dt>ＫＰ</dt><dd class="SP">花染椿 - 今日 16:30<br>CCB&lt;=75 (1D100&lt;=75) 偵查＞ 11 ＞ スペシャル</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你辨認出上頭的文字寫著：「Y&#39;golonac」</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>毫不在意房間內髒亂的環境，她隨意踢開地上的雜物，看著椿走向桌子後，自己朝著衣櫃的方向走近。</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>菖蒲打開衣櫃，裏頭放著皺巴巴的襯衫，掛著男人身上同款風衣，大概是用來替換的。<br><br>《偵查》</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="F">CCB&lt;=70 (1D100&lt;=70) ＞ 99 ＞ 致命的失敗</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>？</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>?</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>？？</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>:why:</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>椿講幫幫我ＱＱ</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>椿講來了😭😭</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>我該如何是好...</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>KP桑打素給爹😭（…..</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>他們的骰 好戲劇性啊（戲劇性</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>打開衣櫃的瞬間，積存已久的灰塵跟著一口氣揚起，她不禁閉上雙眼，來不及阻擋的細小塵埃讓她的雙眼隱隱作痛。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我很抱歉（打了打自己的手</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>撲通、撲通。<br>菖蒲仿佛還能聽見那令人不安的鼓動聲，那陣椿被吞噬之前響起的警鐘。<br><br>只是你回頭看向椿，他並沒有表現出不適的模樣，大概是自己的錯覺吧。<br>一切都會沒事的。即便你如此告訴著自己，依然無反按捺心中對搭檔身體變異的恐懼。<br><br>菖蒲SANc-1</dd></dl>
+	<dl class="tc2 nc10"><dt>system</dt><dd>[ 花染菖蒲 ] SAN : 76 → 75</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>可以繼續了...（爬行</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>椿可以幫忙偵查</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>好</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「菖蒲ちゃん~我剛剛在桌上找到了這個呢。」她走向衣櫃前，將手上的物品展示給對方看「上面有寫著奇怪的文字，你有看過嗎？」<br>「啊！」在看向菖蒲的時候，似乎是發現了她眼睛的不適，趕緊關心對方「妳的眼睛紅起來了，沒事嗎？要不要休息一下，這邊就交給姐姐吧？」</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>這邊可以骰嗎 還是要等一下🥺</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>接過對方手中的物品，一時半刻內還無法將視線好好聚焦，她只能乖巧的點了點頭，抱好手中的物品站在一旁等待著椿。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>偵查ㄉ話可直接骰</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="SU">CCB&lt;=75 (1D100&lt;=75) ＞ 21 ＞ 成功</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>菖蒲的話不用偵查也可以看到東西上面ㄉ字這樣</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>豪！我等火老師先回完（筆愛心</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>椿從風衣口袋裡找到一支打火機，不用點火也知道它能用。</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>稍做歇息後視力也漸漸恢復正常，她看向手中長相奇異的擺件，底座上頭陌生的文字引起了她的注意。<br>──「Y&#39;golonac」</dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「嗯？」她稍微摸索了一下風衣，從中翻出了一支打火機。<br>留著好了，說不定在某些場合可以派上用場，她想。雖然是別人的所有物，但對方再也用不到了。</dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「菖蒲ちゃん……眼睛還好嗎？要幫你吹吹嗎？」她確認衣櫃裡沒有其他特別的東西後，轉頭關心自己的妹妹。</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>「沒事，是我剛才太大意了。」讓對方看見自己的糗狀似乎讓她有些困窘，她可是殺手，被灰塵弄痛雙眼這件事讓其他人知道的話可是會被笑掉大牙的。<br>「嗯...看起來還有沒調查過的地方，我們走吧。」拿好的手中的擺件，兩人一同走向書架。</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>書架上陳列著各種各樣的書，但幾乎都是世面上販售的，其中有一本紅色封面的書十分顯眼。<br>希空說的一定就是這本吧。<br><br>要翻開來看看嗎？</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「白石さん說的應該是這本吧？」在書架上找到疑似白石遺失的書，她按耐不住好奇心，打算翻開閱讀。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>菖蒲講可以一起看嗎</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>可以ㄉ</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>翻開書，會發現裡面的文字不是日語，再加上磨損，實在難以閱讀。書中夾著一張筆記。或許是寫得急了，字跡非常潦草，大概是部分書中內容的翻譯。</dd></dl>
+	<dl class="tc2 nc12"><dt>✎潦草的筆記</dt><dd>其來自黑暗，巴格・沙斯，復甦亡者之存在。<br>　攜子嗣而來，大啖祭品，不近光明。<br>　巴格・沙斯遭驅逐之時，亡者將回歸本來之狀態。<br><br>（後面似乎還寫了什麽，雖然是日文，但做法的意義不明，暫時無法理解。）<br></dd></dl>
+	<p class="tc9 tab"><span>情報</span></p>
+	<dl class="tc9 nc12"><dt>✎潦草的筆記</dt><dd>其來自黑暗，巴格・沙斯，復甦亡者之存在。<br>　攜子嗣而來，大啖祭品，不近光明。<br>　巴格・沙斯遭驅逐之時，亡者將回歸本來之狀態。<br><br>（後面似乎還寫了什麽，雖然是日文，但做法的意義不明，暫時無法理解。）<br></dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>可以接著《靈感》</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="SU">CCB&lt;=70 靈感 (1D100&lt;=70) ＞ 39 ＞ 成功</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>兩個人都看的話就是兩個人都可以靈感</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>CCB&lt;={INT} 靈感</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>？</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>?</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>為甚麼又</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>？</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>啊 山吹講</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>我幫你改一下</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>你的字是打idea</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>現在應該可ㄌ</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>沒注意到　好笨　我字近了</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=80 靈感 (1D100&lt;=80) ＞ 31 ＞ 成功</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你們看出筆記上的筆跡和帽子男的遺書筆跡一致。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>接著《偵查》</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="SU">CCB&lt;=75 (1D100&lt;=75) ＞ 51 ＞ 成功</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=70 (1D100&lt;=70) ＞ 59 ＞ 成功</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>他們ㄉ骰</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>微妙的很像</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>姊妹...（略</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你們找到了另一本古書。<br>要閱讀嗎？</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>同心…</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>注意到放在一旁的另一本古書，在椿拿起之前自己便已經先搶先拿在手上，將身子往椿的方向湊近，接著翻開了封面。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>ㄋ們都要看ㄇ</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>對🥺</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>度</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你翻開了手中的古書。 打開書後，不知為何，你們瞬間理解了書中的用未知語言記述的內容。書的標題浮現在你的腦中：<br><br>《格拉基啟示錄第十二卷》</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你瀏覽文字，所有信息指向了一個地方。<br>「寄宿於惡意中……其名為……」正要讀下去，一張紙條擋住了你們的視線。看到紙條，你們突然回過神來——你們本不可能讀懂書中的內容。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>不能讀，不可以讀。<br>這本書很危險。<br><br>本能發出了警告，你立刻合上書。紙條被氣流裹挾，輕輕落在地上。<br>SANc（1/1d4）</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="SU">CCB&lt;=79 SC (1D100&lt;=79) ＞ 21 ＞ 成功</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="FA">CCB&lt;=75 SC (1D100&lt;=75) ＞ 90 ＞ 失敗</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>這都啥</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>?</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>1d4 (1D4) ＞ 3</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>?</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc10"><dt>system</dt><dd>[ 花染椿 ] SAN : 79 → 78</dd></dl>
+	<dl class="tc2 nc10"><dt>system</dt><dd>[ 花染菖蒲 ] SAN : 75 → 72</dd></dl>
+	<dl class="tc2 nc13"><dt>✎夾在書裡的筆記</dt><dd>他對召喚來的巴格・沙斯動了手腳，從中誕生了特殊的子嗣。<br>　把人拖進絕望的深淵，就叫它Despair吧。<br>　和母體巴格・沙斯不同，Despair的行動力很強，它會先殺死目標然後再寄生到他身上。如果被寄生的人沒有自覺，很可能意識不到自己就是Despair。<br>　和母體一樣怕光，只能在夜晚行動。如果照到陽光就會消失。<br><br>（似乎還有後續，但紙條在這裏被撕破了）</dd></dl>
+	<p class="tc9 tab"><span>情報</span></p>
+	<dl class="tc9 nc13"><dt>✎夾在書裡的筆記</dt><dd>他對召喚來的巴格・沙斯動了手腳，從中誕生了特殊的子嗣。<br>　把人拖進絕望的深淵，就叫它Despair吧。<br>　和母體巴格・沙斯不同，Despair的行動力很強，它會先殺死目標然後再寄生到他身上。如果被寄生的人沒有自覺，很可能意識不到自己就是Despair。<br>　和母體一樣怕光，只能在夜晚行動。如果照到陽光就會消失。<br><br>（似乎還有後續，但紙條在這裏被撕破了）</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>（扭曲）</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>Oh…椿講…</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>🥺</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>流進腦部的資訊讓她感到一陣暈眩，本不應理解的內容，擅自理解的認知，這異樣的衝突感如同寒風和毒辣的陽光侵蝕著她的大腦。<br>她悄悄看了眼擠在自己身旁的椿，嘟嚷著內容晦澀的椿與平時並沒有任何異樣。<br>──真的是這樣嗎？</dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>閱讀著原本無法理解的文字，她在意識到這點時就趕緊撇開視線，強行讓自己不繼續看下去。<br>但書中的內容還是讓她感到不適。</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>RP結束後丟《聆聽+20%》</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>直接先聆聽就好ㄇ！</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>還是後面要加那ㄍ(那ㄍ</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>可以直接打CCB&lt;={聆聽}+20</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="FA">CCB&lt;=60+20 (1D100&lt;=80) ＞ 92 ＞ 失敗</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>豪 謝謝火大人 記住ㄌ</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>她耳朵不好 原諒他（…</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SP">CCB&lt;=70+20 (1D100&lt;=90) ＞ 14 ＞ スペシャル</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>菖蒲聽見外頭有金屬在地面拖行的聲音。<br>窗戶看不清外面，看來只能到屋外確認了。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>還好沒有大失敗</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>想在這邊先中場休息🥺你們可以繼續RP<br>看晚上有沒有需要繼續！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>好 辛苦了🥺<br>這邊晚上可以繼續</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>那我先接著RP！晚上如果可以再跟ㄋ們說</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>這邊晚上最晚只能到12點（要哭ㄌ</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>外頭的異樣聲響引起了她的注意，自家的搭檔並沒有注意到，她也不想驚動到對方。<br>──被撕扯開的軀體散落在地的畫面還讓她歷歷在目。<br>「椿さん，我還想再調查一些地方，可以請你在這裡等我嗎？」雖想透過窗戶觀察外頭的動靜，無奈上頭厚重的塵埃阻擋了她的視線，她盡可能選用了不會引起懷疑的理由，心裡暗暗祈求對方能待在裏頭。</dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「嗯？可以喔。」對於妹妹的要求，她自然是會答應的。<br>是想要調查什麼呢？她待在房間內來回走動，想著說不定會有什麼新發現並等待對方歸來。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>那只有妹妹要出去看ㄇ！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>幫山吹回 他說對！</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>只有2要出去的話HO1可能要先被放置一下（???</dd></dl>
+	<p class="tc6 tab"><span>秘匿(ARaSo,山吹)</span></p>
+	<dl class="tc6 nc4"><dt>ＫＰ</dt><dd>來到室外，你看到公寓前面沒有照明的停車場上，有三個男人正朝這邊走過來。他們穿著破破爛爛的長袍。在看到臉的瞬間，你立刻明白——那是屬於「死人」的臉。</dd></dl>
+	<dl class="tc6 nc4"><dt>ＫＰ</dt><dd>身為殺手，你親手殺了不知道多少人，一眼就能看出來。<br>黯淡的眼睛和慘白的皮膚，以及其他種種特徵都在告訴你，他們「已經死了」。<br>但他們卻好像擁有自己的意志一樣，拖著鐵管朝你襲來，就像是電影裡的僵屍。<br><br>看見死人動起來，SANc（1/1d4）</dd></dl>
+	<p class="tc7 tab"><span>秘密(ARaSo,山吹)</span></p>
+	<dl class="tc7 nc3"><dt>花染菖蒲</dt><dd class="FA">CCB&lt;=72 SC (1D100&lt;=72) ＞ 88 ＞ 失敗</dd></dl>
+	<dl class="tc7 nc3"><dt>花染菖蒲</dt><dd>1D4 (1D4) ＞ 2</dd></dl>
+	<p class="tc6 tab"><span>秘匿(ARaSo,山吹)</span></p>
+	<dl class="tc6 nc10"><dt>system</dt><dd>[ 花染菖蒲 ] SAN : 72 → 70</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>（扭曲變形）</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>HO1也想看可以隨時出來🥺！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我先在大人ㄋ那邊RPㄇ！</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>對！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>我來了😭<br>豪🥺💪</dd></dl>
+	<p class="tc7 tab"><span>秘密(ARaSo,山吹)</span></p>
+	<dl class="tc7 nc3"><dt>花染菖蒲</dt><dd>她形狀姣好的眉毛微微皺起，被奪去生命之人是不應該繼續存留在現世的。<br>佈滿鐵鏽的管子隨著男人們的步伐在地面上劃出痕跡，刺耳的聲音讓她暈眩。<br>她隨即捏了下自己的大腿來喚回自己的意識。<br>她必須要回去才行──有人還在等著她。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>你們一個要回去一個要出來我（無助）</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>阿阿阿大人抱歉......姊妹不同心ㄌ...（抓頭</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我以為要尻爆那些東西（東西）趕緊回去！！啊！！！</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>但 不管怎樣你們都要離開ㄉ...<br>所以等椿講...</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>確實要打架ㄌ！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>椿講來了 我要先Rp 一下再出去嗎</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>可以RP一下...！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>看著菖蒲講ㄉSAN減少我ㄉSAN也跟著一起減了</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>不好意思等我一下😭😭</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>雖說已經答應對方待在原地了，但遲遲未等到對方歸來心裡還是有點擔心。<br>「菖蒲ちゃん……？還好嗎？」她決定走出屋外，查看對方的安危。</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>那麼此時踏出房門的椿也目睹了眼前離奇的一幕——<br><br>公寓前面沒有照明的停車場上，有三個男人正朝這邊走過來。他們穿著破破爛爛的長袍。在看到臉的瞬間，你立刻明白——那是屬於「死人」的臉。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>身為殺手，你親手殺了不知道多少人，一眼就能看出來。<br>黯淡的眼睛和慘白的皮膚，以及其他種種特徵都在告訴你，他們「已經死了」。<br>但他們卻好像擁有自己的意志一樣，拖著鐵管朝你襲來，就像是電影裡的僵屍。<br><br>看見死人動起來，SANc（1/1d4）</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="SU">CCB&lt;=78 SC (1D100&lt;=78) ＞ 16 ＞ 成功</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc10"><dt>system</dt><dd>[ 花染椿 ] SAN : 78 → 77</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>┈┈┈┈┈┈戰鬥開始<br>它們並不具有理性，寫不了遺書，就算不手下留情也無所謂。<br><br>行動順序：椿&gt;菖蒲&gt;殭屍x3</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>幹</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>會動</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>（甚麼感想</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>怪可愛的</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>?</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc14"><dt>殭屍Ａ</dt><dd>🥺</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>他們好像在討抱抱</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>RPㄉ時候可以宣言一下要扁哪隻👊</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>啊 我看到殭屍了 蠻可愛ㄉ（幹？</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>豪🥳</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>豪!</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「……欸？等、什麼？」腦袋還無法理解眼前的生物為何，但危機感讓椿下意識掏出手槍來防衛自己。<br>她瞄準好殭屍A並扣下板機。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>直接骰就好了嗎</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>對ㄉ</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="SU">CCB&lt;=40 手槍 (1D100&lt;=40) ＞ 18 ＞ 成功</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>那直接骰傷害 殭屍不會躲</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>&gt;&gt;殭屍不會躲&lt;&lt;</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>對喔...</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>好 1d10嗎🥺</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>對！</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>1d10 (1D10) ＞ 3</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我繼續ㄇ！還是等大人判定一下</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>等我一下下🥺</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>豪（好想咩噗臉但電腦沒表情</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>普通地命中了。被你擊中的殭屍仍佇立在原地，就算是死過一次的人依舊挺結實的。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>我用複製的（...</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>可以繼續ㄌ</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>「幹得不錯，看來教椿さん的技巧都有好好記住。」即使面對眼前非常識的生物，她依舊不忘稱讚自己的「徒弟」。<br>抽出腿側的軍刺，她毫不猶豫接在椿的行動後衝向殭屍A並瞄準它的小腹刺下。</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="FA">CCB&lt;=65 鬥毆 (1D100&lt;=65) ＞ 93 ＞ 失敗</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>？</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我要去洗手</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>今天是怎樣</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>這麼說的菖蒲ちゃん反而沒有命中呢。<br>可能還是因為目睹眼前超現實的景象的錯吧。</dd></dl>
+	<dl class="tc2 nc14"><dt>殭屍Ａ</dt><dd class="FA">CCB&lt;=25 &lt;鬥毆&gt; (1D100&lt;=25) ＞ 48 ＞ 失敗</dd></dl>
+	<dl class="tc2 nc15"><dt>殭屍B</dt><dd class="SU">CCB&lt;=25 &lt;鬥毆&gt; (1D100&lt;=25) ＞ 22 ＞ 成功</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>是媽咪的錯　菖蒲講我對不起你...</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc15"><dt>殭屍B</dt><dd>1d2 對象 (1D2) ＞ 2</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>趁著菖蒲瞄準另一個對象時，有別的殭屍對你舉起了鐵棍。<br>要《閃避》嗎？</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>直接閃ㄇ！</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>可！</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=45 閃避 (1D100&lt;=45) ＞ 38 ＞ 成功</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc16"><dt>殭屍C</dt><dd class="FA">CCB&lt;=25 &lt;鬥毆&gt; (1D100&lt;=25) ＞ 26 ＞ 失敗</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>回到椿ㄉ行動ㄌ</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>豪</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「菖蒲ちゃん……！」她看見對方差點被殭屍襲擊，槍口指向了殭屍B繼續射擊。<br><br><br></dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="FA">CCB&lt;=40 手槍 (1D100&lt;=40) ＞ 67 ＞ 失敗</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>我也要去洗手了</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>噢...</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我們是打殭屍還是打蟑螂</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>（抓頭</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>那菖蒲講可以繼續...</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>「嘖。」剛才的攻擊落空讓她心生煩躁。<br>──明明只是會動的肉塊。<br>握緊了軍刺，她再次攻擊了殭屍A。</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=65 鬥毆 (1D100&lt;=65) ＞ 28 ＞ 成功</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>1D4+1+1D4 (1D4+1+1D4) ＞ 3[3]+1+2[2] ＞ 6</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>這一下命中要害，殭屍A看起來搖搖欲墜。</dd></dl>
+	<dl class="tc2 nc14"><dt>殭屍Ａ</dt><dd class="FA">CCB&lt;=25 &lt;鬥毆&gt; (1D100&lt;=25) ＞ 50 ＞ 失敗</dd></dl>
+	<dl class="tc2 nc15"><dt>殭屍B</dt><dd class="FA">CCB&lt;=25 &lt;鬥毆&gt; (1D100&lt;=25) ＞ 29 ＞ 失敗</dd></dl>
+	<dl class="tc2 nc16"><dt>殭屍C</dt><dd class="SU">CCB&lt;=25 &lt;鬥毆&gt; (1D100&lt;=25) ＞ 19 ＞ 成功</dd></dl>
+	<dl class="tc2 nc16"><dt>殭屍C</dt><dd>1d2 對象 (1D2) ＞ 2</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>這些行屍走肉明顯不應該擁有集火的概念，但不知為何依然持續向菖蒲進攻。<br>要《閃避》嗎？</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=45 閃避 (1D100&lt;=45) ＞ 40 ＞ 成功</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>這次也輕鬆地躲開了。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>第三回合！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>手槍是不是有子彈數量限制🥺</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>對…！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>豪🥺</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>忘ㄌ說一輪可以開到最多3發<br>第2發技能判定要-10 第3發-20</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>一次戰鬥ㄉ話是能用那ㄍ限制(?)ㄉ發數嗎還是整場（整場</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>謝大人</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>我比較鬆所以算一次戰鬥（??</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>謝謝大人😭😭</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>而且殺手不可能不帶子彈在身上８！</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>可以就算是你們每次打完有補充子彈這樣</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我超怕用完就不能再用都不敢亂開槍！啊！！！</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「嘖。」對於上一發沒射中感到不爽。<br>她決定換個目標，開槍射擊快要倒下的殭屍A。</dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="SU">CCB&lt;=40 手槍 (1D100&lt;=40) ＞ 11 ＞ 成功</dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>1d10 (1D10) ＞ 8</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>？數字好大</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>一個殭屍應聲倒下了，目標還剩下兩個。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>謝謝椿講😭</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>趁著空檔回過頭給了椿一個微笑，似乎是在稱讚她，也對她是自己的搭檔這件事感到驕傲。<br>收起手中的軍刺，她也拔出手槍，一個回身就朝著剛才準備對自己下手的殭屍B射出子彈。</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=65 手槍 (1D100&lt;=65) ＞ 22 ＞ 成功</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我也是1D10嗎還是用表單上面ㄉ數值！！</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>用左輪手槍那ㄍ！1d10+2</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>豪</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>1D10+2 (1D10+2) ＞ 6[6]+2 ＞ 8</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>姊妹...</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>ㄋ要...賭第2發ㄇ...</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>甚麼 這是能繼續射ㄉ意思嗎</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>可以繼續射但是判定值會變55</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>那我賭一下...</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>直接改數值就好ㄇ！</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>對！</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="FA">CCB&lt;=55 手槍 (1D100&lt;=55) ＞ 91 ＞ 失敗</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>?<br></dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>有點太極端</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>？</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>是不是還能賭一發...</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>對...第三發的話是45</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=45 手槍 (1D100&lt;=45) ＞ 18 ＞ 成功</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>....？</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>好</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>好耶</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>那也不用傷害ㄌ</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>好神啊菖蒲講😭</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你連射了三發，眼前的行屍走肉對你來說不過是活標靶，輕鬆地解決了第二個殭屍。<br><br>現在眼前只剩最後一個目標了。</dd></dl>
+	<dl class="tc2 nc16"><dt>殭屍C</dt><dd class="SU">CCB&lt;=25 &lt;鬥毆&gt; (1D100&lt;=25) ＞ 20 ＞ 成功</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>我為甚麼一直成功？？？</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc16"><dt>殭屍C</dt><dd>1d2 對象 (1D2) ＞ 2</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>?</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>菖蒲講</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>？</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>？</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>很受歡迎欸</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>雖然我懂 但不需要</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>最後一隻殭屍依然執著地朝菖蒲襲去。<br>要《閃避》嗎？</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="FA">CCB&lt;=45 閃避 (1D100&lt;=45) ＞ 65 ＞ 失敗</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我人生大起大落</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>（頭好痛</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>我忘記說ㄌ<br>也可以丟鬥毆來反擊 有成功的話就可以反擊</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>但你已經骰ㄌ</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc16"><dt>殭屍C</dt><dd>1d6 傷害 (1D6) ＞ 2</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc10"><dt>system</dt><dd>[ 花染菖蒲 ] HP : 13 → 11</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>記住ㄌ　下次揍（不對</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>鐵棍重重地落在菖蒲的腳上。啊、這下大概會瘀青吧。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>好</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>好色喔</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>嘿嘿</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>？</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>？</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>等等打完可以治一下</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>應該是最後ㄌ 來吧椿講👊</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「你竟敢……！」看見殭屍的鐵棍重擊了菖蒲的腿，憤怒使她不留情的朝向殭屍C連射三發子彈。</dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="F">CCB&lt;=40 手槍 (1D100&lt;=40) ＞ 100 ＞ 致命的失敗</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>？</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>?</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>呃</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>？</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>？</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>？</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>呃 這</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>怎這樣</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>這都是些啥</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>我還能繼續射嗎還是 呃</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>怎麼會這樣</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>那很不幸地，你的槍壞了，登愣……<br>在修好前沒有辦法使用，花費一回合進行《手槍》或《機械維修》成功即可修復。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>不行ㄋ...</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>可以相信菖蒲講...</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>菖蒲講一定行😎</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>菖蒲講是不是還有三發</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>4</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>呼</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>菖蒲講加油</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>槍可以結束再修</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>豪🥺</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>剛才的重擊對她造成的影響並不太大，又或者是，這種程度的攻擊對她來說根本算不上甚麼。<br>她把心思全都放在剩餘的異種上，朝著殭屍C扣下板機。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我也是從65開始骰對ㄇ！</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>對！</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=65 手槍 (1D100&lt;=65) ＞ 31 ＞ 成功</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>然後我剛剛才發現你ㄉ角卡技能點怎-5...</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>救命  為啥！！那我調一下</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="FA">CCB&lt;=55 手槍 (1D100&lt;=55) ＞ 83 ＞ 失敗</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>啊</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>可以先丟第一發ㄉ傷害</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我忘記ㄌ 對 　抱歉！！</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>1D10+2 (1D10+2) ＞ 1[1]+2 ＞ 3</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>？</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>那 要再賭一發ㄇ...</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我繼續第三發ㄌ...</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="FA">CCB&lt;=45 手槍 (1D100&lt;=45) ＞ 64 ＞ 失敗</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我要去改運ㄌ...</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>oh...</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>雖然擊中了一發，但看上去沒有造成多大的傷害。</dd></dl>
+	<dl class="tc2 nc16"><dt>殭屍C</dt><dd class="F">CCB&lt;=25 &lt;鬥毆&gt; (1D100&lt;=25) ＞ 100 ＞ 致命的失敗</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>？</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>?</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>😧</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>這不太對勁...</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>？</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>互相刮痧...</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc16"><dt>殭屍C</dt><dd>s1d6 (1D6) ＞ 2</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>不知為何，最後一隻殭屍自行倒下了，感謝東方神秘力量的努力。<br><br>戰鬥結束 ┈┈┈┈┈┈</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>謝謝東方神秘力量</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>謝謝東方神秘力量</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>此時，你們看見倒下的殭屍們的頭顱炸開了。<br>血液從他們炸裂到無法看出原形的頭顱裏飛濺出來，血汙形成了一個個文字，從他們炸開的腦袋裏飛出來散在了地上。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>「對不起。」<br>　「不想變成怪物。」<br><br>——好像是他們還擁有身為人類的理性時想要說的話。<br>就像是「遺書」。<br>SANc（1/1d3）</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="F">CCB&lt;=70 SC (1D100&lt;=70) ＞ 100 ＞ 致命的失敗</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>？？？</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>？</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>？？？？？</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="SP">CCB&lt;=77 SC (1D100&lt;=77) ＞ 6 ＞ スペシャル</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>那 不用骰1d3ㄌ...</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>你們怎回事</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>？</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc10"><dt>system</dt><dd>[ 花染菖蒲 ] SAN : 70 → 67</dd></dl>
+	<dl class="tc2 nc10"><dt>system</dt><dd>[ 花染椿 ] SAN : 77 → 76</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>這都是些啥</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>這啥...</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>姊妹不同心...</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>走心了...</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我的大腦還在:怎麼我們三個都致命失敗</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>一人一次...</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>RP完可以看要治療修槍都可以！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>不好意思這邊突然有事等我一下下😭馬上回</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>慢來...</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>那我先RP！</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>治療有甚麼限制嗎火老師</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>急救和醫學對自己和對別人都可以各骰一次<br>然後成功都是回1d3</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>回</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>有整場ㄉ次數限制之類ㄉ嗎</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>歡回</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>沒有 但如果要在戰鬥輪用的話那回合就不能攻擊</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>即使她已經習慣了痛楚，但人類的肉體依舊是有極限的，纖細的小腿似乎是承受不了剛才來自異種的重擊，她的身子有些不穩的晃著，接著重重跌坐在地。<br>她看來有些不可置信，似乎是沒辦法理解自己為何無法承受只有這種程度的攻擊。<br></dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>看向由血汙組成的訊息，那些怪物所留下的「遺書」，她搖了搖頭，試圖驅散盤踞在腦中的異樣感，傾過身子用隨身攜帶的繃帶纏住了剛才被攻擊的部位。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>RP完就能直接骰ㄌ對嗎！</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>可！</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>對於眼前的景象她說不出任何話，看完殭屍的「遺書」後，沈默了一會。<br>她默默的檢查手裡的槍，試圖修好它。<br></dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你們仔細查看血書，發現其中不僅有文字，還有一幅圖，似乎簡單地標示了離這裏不遠的某個地方。<br><br>《靈感》or《教育》（擇一，結果相同）</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=82 急救 (1D100&lt;=82) ＞ 46 ＞ 成功</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>1D3 (1D3) ＞ 3</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>骰手槍或機械維修都可以嗎</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>都可以</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我等椿講修完再來骰接下來ㄉ</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc10"><dt>system</dt><dd>[ 花染菖蒲 ] HP : 11 → 13</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd class="FA">CCB&lt;=40 手槍 (1D100&lt;=40) ＞ 89 ＞ 失敗</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>欸</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>啊骰錯地方🤦‍♀️🤦‍♀️🤦‍♀️</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你很好地包紮了傷口。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>沒事 失敗...</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>對不起🤦‍♀️😭</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>可以再回去主頻道骰一次（幹</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>謝謝大人😭😭😭</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="FA">CCB&lt;=40 手槍 (1D100&lt;=40) ＞ 41 ＞ 失敗</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>🤦‍♀️</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>...</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>41...</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>🤦‍♀️</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>咩噗...</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>繼續骰ㄌ嗎！</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>之後都靠菖蒲講了😎（幹？</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>你可以...燒幸運 就是幸運永久-1來改變檢定結果<br>或是賭看看機械維修 再不然等下一個場景有機會可以再修一次</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>看ㄋ！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>椿講不行啊要一起幫忙射啊</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>好啊 機械維修🫵😎</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="FA">CCB&lt;=17 機械維修 (1D100&lt;=17) ＞ 44 ＞ 失敗</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>好吧那晚點有機會再給你們骰一次</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>我再去洗一次手</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>火大能...</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>謝謝大人😭</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>大人有要說神ㄇ媽還是我們接著骰就可以ㄌ！</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>接著骰就好！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>教育跟教養是一樣的嗎🥺（何？</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>EDU那ㄍ</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>豪！</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="SU">CCB&lt;=75 教養 (1D100&lt;=75) ＞ 44 ＞ 成功</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="FA">CCB&lt;=80 靈感 (1D100&lt;=80) ＞ 81 ＞ 失敗</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>？</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>啊怎麼都差1</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>可以不要再差1了嗎</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>失敗可以嘗試另一個</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=65 教養 (1D100&lt;=65) ＞ 42 ＞ 成功</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你們知道那是離這裏不遠的廢棄教堂，周圍有繁茂的樹木植被。那附近近期開始建設高速公路，似乎正要拆掉教堂。<br><br>從這裡走過去花不了多少時間，但如果要找避開光的路線走過去，會多費些功夫。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>戴帽子遮光線是有用的嗎（什麼<br>還是要試試看才知道😭</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>抱歉問題好多😭（…</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>可以試ㄛ...</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>🥺</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>Oh…</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>好欸那我們試試看</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我又來當問題寶寶...想問那本紅皮封面ㄉ書我們是可以帶著走ㄉ嗎</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>可以阿</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>豪！抱歉問題好多不敢亂行動（扭來扭去</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>但帶了應該也沒什麼用 因為你們看不懂</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>除非要當武器砸人...</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我們剛剛還在想要帶回去給白石...阿阿阿...</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>原來可以當武器......</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>歐靠北我以為你們要帶出這個劇本！！</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>那 沒事...你們帶...</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>原來能在各個劇本收集武器嗎...（不是這ㄍ意思</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>理論上是可以的...</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>抱歉白石我忘了要還你書（幹</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我們真ㄉ對他好好（自己說喔</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc6"><dt>白石 希空</dt><dd>太欣慰ㄌ．．．</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「這是……？」像是在指引他們方向一樣，地上出現了教堂的圖示。<br>「啊！菖蒲ちゃん，等我一下喔。」她突然想起了什麼，快步返回到房間裡，取出了紅皮的書本「這個、還是要帶回給白石さん對吧？」</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>她站在公寓外等待著椿將書從房內拿出，隨意看向他們接下來即將行動的路線。<br>閃爍著的路燈，從雲層間流出的細碎月光，刺目的廣告看板，雖說是夜晚但到處都充斥著光明。<br><br>聽見椿在叫喚著自己，她腦中閃過了剛才對方的身軀暴露的光源底下所出現的異狀，點了點頭表示同意對方的問題後湊向前去拉起了椿的兜帽蓋住她的頭頂，並暗暗希望至少這樣做能夠阻隔些光線。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>🥺剛跑去講電話ㄌ．．．</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>那我直接移動ㄌ！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>大人辛苦ㄌ...！</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>豪！</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>這邊等等也要先吃飯</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>豪！</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你們走向血地圖上標示的教堂。越過施工圍擋，便看到茂密的樹林和灌木叢。這裡並未遠離塵囂，綠意盎然的環境實屬罕見。<br>再往前一點，能瞥見矗立在黑暗中的古老石砌建築。只要穿過眼前銹跡斑斑的圍擋就能過去了。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>旁邊就是高速公路。<br>時間是淩晨，路上沒有多少車，此時正有一台卡車經過。前燈的光穿過樹木照到椿的身上。<br><br>瞬間，椿聽到了巨大的脈搏聲。<br>「放我……出去……」<br>令人毛骨悚然的聲音攪動著腦髓，疼痛像電流流遍全身。<br>事出突然，椿無法壓制身體裡的Despair，有一個瞬間，Despair似乎就要撐破椿的身體破殼而出。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>癥狀過一會就消失了，椿注意到自身發生的變化，菖蒲只能看著眼前發生的一切，你們都應該察覺到時間不多了。<br><br>SANc（1/1d4）</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>晚上可以繼續的話今天有望跑完...！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>好耶🥳</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>明天要上班　哭ㄌ（痛苦ㄉ嘶吼</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="SU">CCB&lt;=76 SC (1D100&lt;=76) ＞ 32 ＞ 成功</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=67 SC (1D100&lt;=67) ＞ 42 ＞ 成功</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc10"><dt>system</dt><dd>[ 花染椿 ] SAN : 76 → 75</dd></dl>
+	<dl class="tc2 nc10"><dt>system</dt><dd>[ 花染菖蒲 ] SAN : 67 → 66</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>這邊要RP嗎！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>那我來一下...</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>注意到對方顫抖著的身軀，她沒有任何表示，只是將椿的兜帽又拉下了些。<br>她並不想察覺時間已經所剩不多的事實。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>可以繼續ㄌ！</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我六點去吃飯</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>豪</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>椿有要RP嗎</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>這邊先跳過🥺</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>走近教堂，你們看到教堂大門半毀，連裡面也長滿了植物，似乎沒有人的樣子。<br>在離教堂不遠的開闊地帶，有人倒在地上。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>就在教堂正門前的開闊地帶，那是……屍體嗎？只有身體整潔地躺在地面，而頭卻不知所蹤。<br>但那屍體看上去似乎有點眼熟。 那個體格和那身衣服——更為顯眼的是手腕上的金色手環、掉落在身旁的金色打火機。<br>沒錯，那就是不久之前還和你們說過話的白石希空。<br><br>目睹熟人的屍體，SANc（0/1）</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>白石桑 說好的報酬呢😭</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>不能這樣阿白石桑...</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="SU">CCB&lt;=75 SC (1D100&lt;=75) ＞ 37 ＞ 成功</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc6"><dt>白石 希空</dt><dd>🥺</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="FA">CCB&lt;=66 SC (1D100&lt;=66) ＞ 75 ＞ 失敗</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc10"><dt>system</dt><dd>[ 花染菖蒲 ] SAN : 66 → 65</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>為啥阿昌蒲講...</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>你不是殺手嗎...</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>菖蒲講涉世不深...</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>可對屍體進行《醫學》和《偵查》（結果不同）</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>一個人是兩ㄍ都能骰嗎</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>還是只能一人骰一種</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>兩種都能</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="SU">CCB&lt;=75 (1D100&lt;=75) ＞ 64 ＞ 成功</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd class="FA">CCB&lt;=31 醫學 (1D100&lt;=31) ＞ 34 ＞ 失敗</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="FA">CCB&lt;=36 醫學 (1D100&lt;=36) ＞ 67 ＞ 失敗</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>啊我怎麼又</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=70 (1D100&lt;=70) ＞ 20 ＞ 成功</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>骰錯邊🤦‍♀️</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>那要回去骰一次ㄇ</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>好 不好意思😭😭😭</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>好想把骰子吃了</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="FA">CCB&lt;=31 醫學 (1D100&lt;=31) ＞ 40 ＞ 失敗</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你們從他的口袋裡找到一疊皺巴巴的紙。像是從哪裏撿來塞進去的，皺得厲害。幾乎都是白紙，但其中一張上面做了筆記。</dd></dl>
+	<dl class="tc2 nc17"><dt>✎筆記的碎片</dt><dd>Despair擁有名為「權能」的特殊能力，受到宿主的影響，權能會對附近的屍體產生不同的效果。<br>　祛除寄生的Despair時，如果宿主原本是活人，其將回復到被Despair殺害前的狀態；如果宿主原本就是屍體，也將變回屍體。<br>　如果母體不在附近，Despair的宿主死亡的同時，Despair也會消失。<br>　如果想在宿主死亡前祛除Despair，就要用陽光、火光等強光驅逐母體巴格・沙斯，之後……<br><br>（紙條在這裏被撕破了）<br></dd></dl>
+	<p class="tc9 tab"><span>情報</span></p>
+	<dl class="tc9 nc17"><dt>✎筆記的碎片</dt><dd>Despair擁有名為「權能」的特殊能力，受到宿主的影響，權能會對附近的屍體產生不同的效果。<br>　祛除寄生的Despair時，如果宿主原本是活人，其將回復到被Despair殺害前的狀態；如果宿主原本就是屍體，也將變回屍體。<br>　如果母體不在附近，Despair的宿主死亡的同時，Despair也會消失。<br>　如果想在宿主死亡前祛除Despair，就要用陽光、火光等強光驅逐母體巴格・沙斯，之後……<br><br>（紙條在這裏被撕破了）<br></dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我被叫走了抱歉（大哭）要先離開了</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>紙摸起來有點奇怪。椿可以知道這跟他從少女那裏拿到的紙是同樣的材質。<br><br>《靈感》+20%</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>🥺那先停在這裡！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>那我先骰</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>晚點能繼續的話可以在DC說一下！</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="F">CCB&lt;=70+20 靈感 (1D100&lt;=90) ＞ 96 ＞ 致命的失敗</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>🤦‍♀️🤦‍♀️🤦‍♀️</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>？？？？</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我也先骰玩再離開！</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>？</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>😰</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>怎麼這還能失敗的！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>椿講我對不起你</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>還是你要...用那個大成功抵掉...就沒事...</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>好 用 一定用😭</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>😭👊</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>大成功抵用，無事發生。<br>不過椿仍然對於這些紙的用途沒有頭緒。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>阿　菖蒲講也能骰對嗎</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>原本應該不行ㄉ但你相棒大失敗...給你骰...</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>但不能+20</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>謝謝大人 人好好😭😭😭</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>火大人當我們ㄉＫＰ我們三生有幸（叩拜</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>今天都是啥骰</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>看了下劇本應該是可以骰但不能+20</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>總之請骰🫴</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=80 靈感 (1D100&lt;=80) ＞ 33 ＞ 成功</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>呼（好險有成功不然我不知道該怎辦）</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我一直抓頭</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>呼 謝謝菖蒲講😭</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>菖蒲發現，這不是普通的紙，而是特製的高燃性紙。把從少女那拿到的紙和這些紙一起點燃，它們會劇烈地燃燒。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我先離開ㄌ！謝兩位我愛ㄋ們（遺言？</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>🥺</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>那看你們有沒有要RP！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>豪！我看一下</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>椿講.....（扭曲變形</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>菖蒲講現在是隱隱約約已經知道椿講ㄉ變化了對不對</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>看他怎麼想（??</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>這邊的椿講會察覺到自己的身體裡可能有紙上寫的那個怪物ㄇ（？</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>呃呃啊啊抱歉腦袋開始有點轉不過來（呃</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>豪！我在想我們知道有沒有等於PC知道所以突然（卡住</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>這個就 你們可以自由決定</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>豪　謝謝大人（筆愛心</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>🫶</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>椿現在應該就是知道自己怕光然後會一直聽見體內奇怪ㄉ聲音<br>菖蒲也有感覺搭檔怪怪ㄉ這樣<br>PL想法不等於PC想法所以看你們自己要讓PC理解多少</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>她以指尖摩娑著以特殊材質所做的紙張，思考著椿在「回來」後表現出的各種奇怪舉動。<br>──不，不能再繼續思考下去。<br>忍不住捏緊手中的紙張去遏制住自己的思考，她不想發覺，也不想承認那唯一的可能性。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>了解！我還以為有硬性規定之類（想好多</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我這邊可以繼續ㄌ</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>你們不對白石ㄉ屍體做什麼反應ㄇ(幹</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>幹我剛剛看到第一個想法也是我們會不會又要跟她貝透</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>等我來一下</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>等我一下</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>視線轉向依舊靜靜的橫躺在地上的──白石希空的屍體。<br>她悄悄握住了口袋中的軍刺做好隨時都能攻擊的準備，再下一秒，她猝不及防將手伸向白石的屍體，而目標正是掉落在一旁的金色打火機。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我在打ㄉ時候<br>oO白石會不會突然彈起來</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>看完紙上的訊息後，她退後了幾步，像是在警戒著什麼似的。<br>如果自己的身體裡真的有紙上所描寫的「怪物」的話，那白石さん的屍體……。<br>這是椿心中最糟的猜測，而她一直不願承認，但為了保護好自己的妹妹，只好作最壞的打算。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>那你們要進教堂了嗎！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>進！</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>進！</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>那就讓你們身上各有一隻打火機！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>豪！</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你們進入了教堂，見到教堂裡有5具殭屍。<br><br>如果要潛行過去過《DEX》或《潛行》檢定。</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="FA">CCB&lt;=60 敏捷 (1D100&lt;=60) ＞ 72 ＞ 失敗</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=55 敏捷 (1D100&lt;=55) ＞ 34 ＞ 成功</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>🤦‍♀️</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>（抓頭</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>椿講我對不起你</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>怎這樣</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>菖蒲講ㄉ立繪看起來也像在抓頭</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>（好腦死</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>抱歉了菖蒲ちゃん😋</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>（…</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>ㄎㄌ想問可以再賭一次潛行嗎</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>噢有潛行的話可以</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>吸吸吐 我要上了</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="FA">CCB&lt;=35 潛行 (1D100&lt;=35) ＞ 81 ＞ 失敗</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>對不起了</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>我去罰跪</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc14"><dt>殭屍Ａ</dt><dd class="FA">CCB&lt;=25 &lt;偵查&gt; (1D100&lt;=25) ＞ 35 ＞ 失敗</dd></dl>
+	<dl class="tc2 nc14"><dt>殭屍Ａ</dt><dd class="SU">CCB&lt;=25 &lt;偵查2&gt; (1D100&lt;=25) ＞ 14 ＞ 成功</dd></dl>
+	<dl class="tc2 nc14"><dt>殭屍Ａ</dt><dd class="SU">CCB&lt;=25 &lt;偵查3&gt; (1D100&lt;=25) ＞ 6 ＞ 成功</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>....？</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc14"><dt>殭屍Ａ</dt><dd class="F">CCB&lt;=25 &lt;偵查4&gt; (1D100&lt;=25) ＞ 99 ＞ 致命的失敗</dd></dl>
+	<dl class="tc2 nc14"><dt>殭屍Ａ</dt><dd class="FA">CCB&lt;=25 &lt;偵查5&gt; (1D100&lt;=25) ＞ 36 ＞ 失敗</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>……？</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>那麼有一隻殭屍發現了椿。<br>可以選擇過一次《DEX》脫離戰鬥再度進行一次潛行判定或直接進行戰鬥。</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="FA">CCB&lt;=60 敏捷 (1D100&lt;=60) ＞ 85 ＞ 失敗</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>🤦‍♀️</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>.....</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>椿講：欸嘿胚囉😋</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>咩...</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>如果要的話菖蒲也可以加入戰鬥</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>現在的失敗都是為了關鍵的時候可以大成功😭😭（腦死</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>當然要一起圍毆</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>然後椿因為這回合做行動了所以不能動 菖蒲要加入打人的話可以直接RP丟骰！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>豪</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>她比起對方更早注意到了殭屍的動向，沒有任何猶豫，抽起軍刺對著殭屍就是充滿了殺意的一擊。</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=65 鬥毆 (1D100&lt;=65) ＞ 36 ＞ 成功</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>1D4+1+1D4 (1D4+1+1D4) ＞ 1[1]+1+2[2] ＞ 4</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc14"><dt>殭屍Ａ</dt><dd class="SU">CCB&lt;=25 &lt;鬥毆&gt; (1D100&lt;=25) ＞ 7 ＞ 成功</dd></dl>
+	<dl class="tc2 nc14"><dt>殭屍Ａ</dt><dd>1d2 對象 (1D2) ＞ 2</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>......</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc14"><dt>殭屍Ａ</dt><dd>我的1d2只有2嗎！！！！！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>？</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>為啥（抓頭</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>（插腰）</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>菖蒲講是有甚麼吸引殭屍的體質嗎</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>藉著距離的縮短，殭屍也朝你發動了襲擊。<br>《閃避》or《鬥毆》反擊？</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>直接骰就可以ㄌ對嗎!</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>對ㄉ</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=65 鬥毆 (1D100&lt;=65) ＞ 36 ＞ 成功</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>居然成功了（為甚麼是你說</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>ㄋ可以骰軍刺ㄉ傷害</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>1D4+1+1D4 (1D4+1+1D4) ＞ 1[1]+1+2[2] ＞ 4</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>？</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我的是只有（以下略</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你躲過殭屍揮來的棍棒，一刀劃開了他已然腐爛的皮膚。只見他仿佛還有生前意識那般哀號了幾聲，重新穩固好搖晃的身子。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>椿看要繼續逃還是 開扁</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>可以修手槍嗎（？</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>可以...我正要打...突然想起槍還沒修好</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>好耶🥳🥳</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我們把殭屍打成BOSS戰</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>原本想一起加入戰局，但在掏出手槍的那一刻椿愣了一下，想起了手槍目前還是故障的狀態。<br>「啊……抱歉～！菖蒲ちゃん！可以再麻煩妳多撐一會兒嗎？」她開始擺弄手上的手槍「姐姐我要先讓這不乖的槍好好聽話才行。」</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>骰手槍嗎 還是機械維修</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>都可以 但只能骰一個</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>豪！</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="FA">CCB&lt;=40 手槍 (1D100&lt;=40) ＞ 47 ＞ 失敗</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>🤦‍♀️🤦‍♀️🤦‍♀️</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>...？</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>窩不知道.jpg</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>椿桑...</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>我不知道了</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>那菖蒲講...請...</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>這邊暫離一下 馬上回😭</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>「嗯，交給我。」面向對方時候露出一瞬的笑容，接著便恢復成原來的毫無表情，再次攻擊了殭屍。</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=65 鬥毆 (1D100&lt;=65) ＞ 57 ＞ 成功</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>1D4+1+1D4 (1D4+1+1D4) ＞ 1[1]+1+1[1] ＞ 3</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我要去洗手ㄌ　這都啥</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>殭屍應聲倒下了，現在無人能阻止你們往前。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>可以再給椿講一次修手槍的機會...</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>椿講加油阿.....</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>回</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>呼。<br>看著倒下的殭屍吐出一口氣，她走向還在一旁跟槍枝奮戰的椿，跟著一起蹲下身子等待著對方。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>呼</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>我要上了</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>椿講加油...</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>直接骰就好嗎</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>對</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="FA">CCB&lt;=40 手槍 (1D100&lt;=40) ＞ 56 ＞ 失敗</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>唉</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>...？</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>😭</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>怎麼這麼</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>🤦‍♀️</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>菖蒲要幫修嗎...最後一次機會...</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>菖蒲講😭😭😭</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>也是骰手槍對不對！</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>對ㄉ</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我們RP一下！</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>豪</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>這邊想RP一下（</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>就算再怎麼擺弄手中的槍枝，椿還是無法修好它。她抬頭往向早已解決敵人的菖蒲，決定向對方求助。<br>「唔……菖蒲ちゃん～幫幫人家嘛～」她用撒嬌般的語氣說著，將手上的槍枝塞給對方。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>歐捏該一 菖蒲講😭😭</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>接過對方手中的槍枝，她沒說甚麼，只是露出獨獨對椿會展露的微笑，早已對椿的撒嬌習以為常。</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="C">CCB&lt;=65 手槍 (1D100&lt;=65) ＞ 2 ＞ 決定的成功/スペシャル</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>？</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>我看不懂但好</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>？</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>謝謝 謝謝菖蒲a夢</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>為啥啊</dd></dl>
+	<p class="tc4 tab"><span>成長</span></p>
+	<dl class="tc4 nc4"><dt>ＫＰ</dt><dd class="C">花染菖蒲 - 今日 23:14<br>CCB&lt;=65 手槍 (1D100&lt;=65) ＞ 2 ＞ 決定的成功/スペシャル</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>我們的失敗 就是為了這個大成功😭（不好欸</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>菖蒲輕輕鬆鬆就把椿擺弄許久都沒能修好的槍枝修好ㄌ，現在跟新的一樣。<br>大成功保留。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>可以進去ㄌ對不對</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>我來帶ㄋ們進去</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>抵達聖壇後，可以看到十字架底座下有通往地下的台階。<br>下面很黑，秘密入口可能已經打開有段時間了。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>（被火老師拎起來</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你們順著台階往下走，在黑暗中前行，最後來到一扇門前。打開門，門後面巨大的空間不知道是用來做什麽的。有什麽東西響應著乾澀的開門聲，在黑暗的空間裏蠢蠢欲動。</dd></dl>
+	<dl class="tc2 nc18"><dt>ＫＰ</dt><dd>那是長滿了眼睛和嘴、令人毛骨悚然的漆黑肉塊。<br>它和寄生在椿身體裡的肉塊很相似，但更強大。對聲音作出反應，它無數的眼睛朝你們看過來。它的嘴覆蓋在腳邊的屍體上，貪婪地啃食。<br>你們立刻明白過來，那就是筆記裏提到的母體——巴格・沙斯。<br>必須趕緊想辦法，椿的身體已經快撐不住了。</dd></dl>
+	<dl class="tc2 nc18"><dt>ＫＰ</dt><dd>眼前的怪物收回覆蓋在屍體上的嘴，朝著它的新祭品襲來。<br>直視舊日支配者巴格・沙斯，SANc（1d6/1d20）</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=65 SC (1D100&lt;=65) ＞ 49 ＞ 成功</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc2"><dt>花染椿</dt><dd class="SU">CCB&lt;=75 SC (1D100&lt;=75) ＞ 64 ＞ 成功</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>1D6 (1D6) ＞ 4</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc10"><dt>system</dt><dd>[ 花染菖蒲 ] SAN : 65 → 61</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>1D6 (1D6) ＞ 2</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc10"><dt>system</dt><dd>[ 花染椿 ] SAN : 75 → 73</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc19"><dt>ＫＰ</dt><dd>天啊</dd></dl>
+	<dl class="tc1 nc19"><dt>ＫＰ</dt><dd>你們好穩</dd></dl>
+	<dl class="tc1 nc19"><dt>ＫＰ</dt><dd>謝謝（幹？</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>剛剛的失敗是值得的......</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>Kp桑換顏色ㄌ 好可愛</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>戰鬥開始 ┈┈┈┈┈┈<br><br>行動順：椿&gt;菖蒲&gt;巴格・沙斯</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我先洗澡做好準備再來打架</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>啊 原來可以戰鬥的嗎（什麼</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>等我</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>等你</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>那我也去洗 馬上回😭</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>等你們👊</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>回</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>好快啊</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>回</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>我最會洗戰鬥澡（自豪什麼</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>姊妹...（這個不需要</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>看見眼前的肉塊，她想起在小巷內的遭遇，不禁起了顫抖。<br>雖然很想趕快帶著菖蒲逃離這地方，但也無法保證對方不會追過來。<br>只能戰鬥了嗎……。椿拔起手槍連開三發。</dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="FA">CCB&lt;=40 手槍 (1D100&lt;=40) ＞ 63 ＞ 失敗</dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="FA">CCB&lt;=30 手槍 (1D100&lt;=30) ＞ 34 ＞ 失敗</dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="SU">CCB&lt;=20 手槍 (1D100&lt;=20) ＞ 20 ＞ 成功</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>呼</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>1D10 (1D10) ＞ 6</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>子彈確實打穿了肉塊，一些不知名液體濺在了四周，但看上去沒造成太大的效果。<br>眼前的「神明」不定型地緩慢蠕動。</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>與無數的眼睛在一瞬間對上了視線，她突然有種自己的心靈正在被蠶食的錯覺。<br>不過，這並無所謂。<br>──因為打從一開始她就沒有「心」。<br>她是花染菖蒲，只是作為殺手被生養的存在。<br>深呼吸口氣後，她也拔出了手槍朝著巨大的黑色肉塊射出三發子彈。</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=65 手槍 (1D100&lt;=65) ＞ 50 ＞ 成功</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>1D10+2 (1D10+2) ＞ 9[9]+2 ＞ 11</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="F">CCB&lt;=65 手槍 (1D100&lt;=65) ＞ 99 ＞ 致命的失敗</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>？</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>？</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>山吹針老師說你很會RP（針：？</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我要亂扭了但我大失敗我開始掉頭髮</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>你要用大成功抵掉嗎...</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>謝謝剛剛ㄉ大成功</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>那等我描寫一下</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>謝謝剛剛的菖蒲講</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>謝謝針老師怎被看光我在裸奔.......</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>ㄎㄌ提醒我才發現我骰錯數值　抱歉！但都大失敗了！</dd></dl>
+	<dl class="tc0 nc20"><dt>文具</dt><dd>為什麼被抓到我在偷看 什麼14</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>針老師你怎麼看我裸奔啊（抓頭</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>只見你聚精會神射出的子彈穿過那些肉塊，但隨後那些傷口便很快癒合如初。<br>緊接著，數以千計的眼睛齊齊看向了菖蒲，它將周圍的所有事物視為祭品，蠕動著身軀向菖蒲襲去。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>巨大的身軀包覆住你的身軀，這舉動將你與外界及椿隔絕，你的視野頓時變得比方才更加黑暗。<br><br>一旁的椿也目睹了妹妹被怪物包覆的景象。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc20"><dt>文具</dt><dd>我聽說這裡有美麗女同我就來了 謝謝兩位老師好會寫好好看</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>雖然我是流水帳大師但不客氣針老師吃的開心就好（蠕動）</dd></dl>
+	<dl class="tc0 nc21"><dt>傻傻</dt><dd>我也想說山吹好會RP</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>要做什麼行動的話可以直接RP<br>如果不知道要幹嘛可以丟個靈感會有提示</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>？？？（開始脫光）（開始裸奔）（把ㄎㄌ抓出來一起裸奔）</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>謝謝大人 我剛剛大混亂真的不知道要幹嘛ㄌ（欸</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>不要抓我 我才是流水帳大師</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>請大家看看ㄎㄌ老師畫的美麗立繪</dd></dl>
+	<dl class="tc0 nc21"><dt>傻傻</dt><dd>我偷看很久了&amp;在這裡找到戰鬥澡同好很感動 我們以後一定要一起跑團（靠北？</dd></dl>
+	<dl class="tc0 nc20"><dt>文具</dt><dd>是真的很正 反覆觀看</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="SU">CCB&lt;=70 靈感 (1D100&lt;=70) ＞ 29 ＞ 成功</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc21"><dt>傻傻</dt><dd>對啊你們真的 很好看</dd></dl>
+	<dl class="tc0 nc20"><dt>文具</dt><dd>好老婆立繪</dd></dl>
+	<dl class="tc0 nc21"><dt>傻傻</dt><dd>姊姊撒嬌超可愛 姊妹貼貼神作</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>謝謝各位大人（磕頭）</dd></dl>
+	<dl class="tc0 nc20"><dt>文具</dt><dd>希望突然講話沒有嚇到大人......我本來沒有要出來的但被cue了（ㄜ</dd></dl>
+	<dl class="tc0 nc20"><dt>文具</dt><dd>我才要感謝能免費看好看RP好看圖片</dd></dl>
+	<dl class="tc0 nc21"><dt>傻傻</dt><dd>我也 希望沒有嚇到兩位大人（太晚了</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我才要謝謝兩位願意看我幼稚園RP謝謝.....（磕頭）</dd></dl>
+	<dl class="tc0 nc21"><dt>傻傻</dt><dd>你這個是幼稚園<br>那 那 我可能還沒出生…（三小</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>沒事ㄉ🥺 謝謝兩位不嫌棄😭（繼續磕頭）<br>不嫌棄的話有機會我們一起跑…🥺👉👈（抓起山吹）</dd></dl>
+	<p class="tc5 tab"><span>秘匿(ARaSo,kuroi)</span></p>
+	<dl class="tc5 nc4"><dt>ＫＰ</dt><dd>光是Despair和巴格・沙斯的弱點。<br>如果是在巴格・沙斯體內的菖蒲點起火的話，是不是能夠在不對被Despair寄生的自己造成傷害的情況下，從內部使眼前的怪物分崩離析呢？<br><br>你的腦袋冒出了這般想法。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>靈感的資訊在私人頻道</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>雖然停在這裡很抱歉但我必須睡了我恨上班（發自肺腑的怨恨</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>收到了🫡</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>椿可以嘗試告訴菖蒲這件事 直接喊應該也可以聽到 神話生物隔音蠻差的（幹</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>然後可以先停在這🥺下次一次跑完剛好</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>豪！！謝謝火大人...<br>針大人傻傻大人我也愛你們...（回音回音回音）</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>啊 好<br>我先RP好了不然我怕下次我會失憶🥺（…</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「菖蒲ちゃん……！菖蒲ちゃん……！」<br>絕望感朝著椿襲來，自己一直以來都是在依靠著對方，而身為姐姐卻無法保護妹妹的事實就擺在眼前。<br>身體止不住顫抖，她跪坐在地，而打火機也從口袋中滑落在眼前。<br>——對了，用打火機的話……！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>啊啊啊啊啊啊啊</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>可以編輯...</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>謝大人…</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>我社死......</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>想起了眼前的怪物的弱點，假如只有自己一人的話一定會選擇這種方式跟對方同歸於盡，但這種方式一定會被菖蒲責罵吧。<br>想到對方生氣的表情，她不禁噗哧笑了一下「真是的，這種時候還笑的出來，我還真是……」</dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>如果是由菖蒲點燃的話，是不是就能從著肉塊中逃脫呢？心裡堅信著對方一定還沒死亡，她懷抱著一絲希望，對著肉塊大喊，希望自己的聲音可以傳遞給她。<br>「菖蒲ちゃん！聽得到嗎？快點燃打火機……！」</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>來吧你們直接繼續...</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>豪 等我</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>黑暗頓時包裹住自己。<br>她閉上雙眼，阻隔自己的視線，只倚靠自己的身體去辨識周圍的一切。<br>濕熱黏膩的氣息，無數朝著自己投來的視線，她似乎還能夠聽見心臟的鼓動聲。<br>這居然讓她有些......懷念。<br></dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>但──她已經下定決心，她不能夠再繼續待在那片黑暗當中。<br>因為有等著她回去的重要之人。<br>熟悉的聲音穿透過由肉壁構築而成的黑暗，她睜開雙眼，同時點燃了手中的打火機。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>靠北抱歉我在雙開、、、</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>大人慢來就好 &lt;3</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>那奇怪的聲音說不出是哭嚎還是悲鳴，你所點燃的光芒灼燒著支配黑暗的神明。貪婪的嘴痛苦地縮回母體，最終被咽下的光芒所凈化。<br>椿見到面前的神明如煙霧一樣消散，菖蒲也重見了天日，寂靜降臨在這個空間。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>然而並沒有持續很久。再一次聽見脈搏，伴隨著全身劇痛，椿當場跪了下去。<br>身體動不了，快沒有時間了。明明已經驅逐了母體，但潛伏在椿身體裏的威脅卻依然健在。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>就在這時，黑暗中傳來了掌聲。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>歐咩爹都...</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc6"><dt>白石 希空</dt><dd>「還在硬撐啊......真頑強，我喜歡。」</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>歐咩爹都...</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你們朝聲音看過去，站在那裏的是白石希空……？</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「嗚……」劇痛使她跪倒在地，但比起疼痛，更讓她不解的是站在她們眼前的男人。<br>「白石……さん……？」看著原本已經死去的人，她露出困惑的表情問道「這是什麼意思呢？聽起來就像是你知道我的異狀一樣呢……？」</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>「白石...希空。」攙扶住跪坐在地上的椿，她朝著對方投射出的，充滿殺意的視線，已經完全地將對方判斷成了「敵人」。</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc6"><dt>白石 希空</dt><dd>「這不是理所當然的嗎？你會變成這樣都是我一手造成的呀。」哇，笑得好欠扁。<br><br>停止鼓掌，勾起嘴角：<br>「雖然也想看看你們遺書屋扭曲的表情，但竟然能走到這一步，也不枉我對你們有所期待。」自顧自地說著。</dd></dl>
+	<dl class="tc2 nc6"><dt>白石 希空</dt><dd>「什麼搶書、委託人，都是我騙你們的。」<br><br>「那邊的遺書屋……啊，是負責送信的那位吧？」對面露痛苦的椿愉悅地輕哼幾聲。「時間也差不多了，Despair馬上就會破殼而出。不過現在沒有了母體，你大概很快就會消失吧。」<br>「我真正的目的是——菖蒲ちゃん。」看向對自己表露出敵意的菖蒲。<br><br>「我可以救他喔？」</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>（瘋狂扭曲）</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>我一拳一個白石希空👊</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc6"><dt>白石 希空</dt><dd>「我把Despair從椿ちゃん的身體裏除掉，菖蒲ちゃん，你就把自己的身體給我作為報酬吧？」<br><br>「別露出那種可怕的表情嘛，你們應該已經知道我不是你們認識的白石希空了吧？我只是借了他的身體。<br>但是呢，我跟這個身體不太合拍，再壞一點的傢伙比較適合我。像是雙手染滿鮮血的人<br><br>……比如妳。」</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>（瘋狂抓頭）</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>社畜的心靈遭受強烈打擊</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>（頭髮掉光）</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>你們要嗆他嗎（??</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>&amp;發現我打錯了幹</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>沒關係我還在瞳孔地震</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>嗆　哪次不嗆</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>只能嗆ㄌ👊</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我們　轉一下　大腦</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>（轉一下</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>慢來👊</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>這都是些啥.......</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>這都是些啥…</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>好好玩</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我震驚到電腦當機</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>(針的</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「哈、別開玩笑了。」聽見對方的目的，她壓抑不住心中的怒火，身體的疼痛以及極度的憤怒讓她露出扭曲的笑容。</dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「菖蒲ちゃん……沒事的。」像是在安撫對方一樣，她握住菖蒲的手說道「一起解決眼前的敵人吧。」我們說好要一起回家對吧？這句話說不出口，她已經知道自己的身體快到極限了。<br>——就算最後只剩妳一人，也要好好活著。</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>她濃烈的殺意在聽見對方的提案後似乎有些動搖。<br>自己的身體不管怎麼樣她都無所謂，本就只是副空洞的軀殼，就算持有人不是自己，對她來說也毫無影響。<br>只是回到最初的狀態罷了。<br></dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>但...椿不一樣。<br>她靈動的雙眼，對她展露出的笑容，鬧彆扭時鼓起的臉頰──她們初遇時，她在椿的頸上留下的血痕，這是她第一次覺得血液是如此艷麗。<br>一切都在不斷的提醒她，椿是個活生生的人類，她有著心，她還有著未來。<br>──所以我不會讓她的生命葬送在這裡。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>我也要頭髮掉光了</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>這都啥（這都啥）＃這都啥</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>好好看.................</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc6"><dt>白石 希空</dt><dd>「你們自己也知道沒時間了吧，遺憾的是祛除Despair的方法只存在於『我的腦子』裡，你們沒有其他選擇哦？」催促著，絲毫不顧你們的想法。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>他向你們微笑，要你們做出選擇。<br>那麼你們要同意他的條件，抑或者另尋出路？決定權在你們的手上。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>這邊如果想不到的話也可以靈感一下</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="SU">CCB&lt;=70 靈感 (1D100&lt;=70) ＞ 29 ＞ 成功</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>我一直在想那個紙能不能燒（瘋狂抓頭）</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=80 靈感 (1D100&lt;=80) ＞ 33 ＞ 成功</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>那個已經燒掉ㄌ</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>就是剛剛驅散怪物ㄉ時候</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>受Despair權能的影響，之前還殘留著些許人性的僵屍，頭炸開之後留下了血書。<br>希空剛才說「方法只存在我的腦子裡」，那如果殺了他……？</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>啊 原來 我以為只是普通的使用打火機而已（呃</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>沒事我後來也發現我沒給清楚😭</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>這邊可以Rp後直接開始攻擊嗎</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>沒事沒事🥺🫶</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>可以👌</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>我這裡偷襲的話是必中</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>Oh…意思就是可以趁他不注意開槍嗎（何</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>沒錯</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>好耶🥳🥳</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>不好意思再問一下，偷襲的話可以連發嗎，還是只能射一發呢，抱歉問題有點多😭</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>只能一發！</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「我的腦子」……？<br>聽到這個詞，她想起了不久前在公寓遇到的殭屍。如果殺了他的話，也會跟那些殭屍一樣留下訊息嗎……？<br>就算推測錯誤也並無大礙，椿唯一的願望就是讓自己最心愛的妹妹活下去而已，自己的安危已經被她拋在腦後了。<br>她趁白石的注意力還在菖蒲身上時，拔出手槍朝對方射擊。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>好💪</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>直接骰傷害就好嗎</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>對ㄉ</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>1D10 (1D10) ＞ 8</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你先發制人，子彈射穿了白石的左肩。<br>他有些不可置信地望向你，隨後笑了出來。</dd></dl>
+	<dl class="tc2 nc6"><dt>白石 希空</dt><dd>「呵、這是打算殺了我？先說，我可不打算寫遺書哦。」</dd></dl>
+	<dl class="tc2 nc22"><dt>白石 希空（偽物）</dt><dd>「……啊啊，看來不是為這個呀。你們打算使用Despair的權能……這樣啊，有意思。」<br><br>「有本事就試試看啊！」</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>他笑著向你們伸出手。 一張大嘴瞬間出現他的掌心。耷拉著舌頭的嘴裏長滿利齒，它大張著朝獵物襲來。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你們也進入戰鬥狀態，因為剛才稍作休息，你現在也能動了。<br>來吧，遺書屋的工作尚未結束。<br><br>……這是墮落者之間的自相殘殺。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>s1d3+5 (1D3+5) ＞ 3[3]+5 ＞ 8</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>戰鬥開始 ┈┈┈┈┈┈<br><br>行動順：偽白石&gt;椿&gt;菖蒲</dd></dl>
+	<dl class="tc2 nc22"><dt>白石 希空（偽物）</dt><dd class="FA">CCB&lt;=80 &lt;撕咬&gt; (1D100&lt;=80) ＞ 87 ＞ 失敗</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>喔天啊被骰子嗆ㄌ</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>雖然很抱歉但我剛剛<br>：…地達羅？</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>？</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>？</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>好想幫他刷牙</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>87超神</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>？</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>那麼他撲了個空。<br>椿的回合。</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「哼、怪物，總算露出真面目了呢。」她再次朝著對方開槍。</dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="FA">CCB&lt;=40 手槍 (1D100&lt;=40) ＞ 54 ＞ 失敗</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>要繼續射ㄇ</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>再射一發好了😭</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="C">CCB&lt;=30 手槍 (1D100&lt;=30) ＞ 4 ＞ 決定的成功/スペシャル</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>？</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>?</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>?</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>這不用骰傷害...</dd></dl>
+	<p class="tc4 tab"><span>成長</span></p>
+	<dl class="tc4 nc4"><dt>ＫＰ</dt><dd class="C">花染椿 - 今日 1:00<br>CCB&lt;=30 手槍 (1D100&lt;=30) ＞ 4 ＞ 決定的成功/スペシャル</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>來自妹控的裁決</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd></dd></dl>
+	<dl class="tc2 nc22"><dt>白石 希空（偽物）</dt><dd class="FA">CCB&lt;=30 &lt;閃避&gt; (1D100&lt;=30) ＞ 83 ＞ 失敗</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你一發入魂——射中了他的腦袋。<br>他踉蹌地退了半步，儘管是這樣依然沒有倒下。是由於本質上還是怪物吧。<br>他遮著額頭上不斷流出鮮血的傷口，衝你笑了笑。</dd></dl>
+	<dl class="tc2 nc22"><dt>白石 希空（偽物）</dt><dd>「……幹得不錯。」</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>菖蒲的回合。</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>槍聲硬是喚回了她逐漸遠離的意識。<br>眼前是自己唯一的姊姊──花染椿，正忍著劇痛朝怪物射擊的場景，她本就白皙的肌膚因為強烈的疼痛更顯慘白，但椿依舊咬緊牙關，緊握住了手中的槍枝。<br>她不禁為自己方才的想法感到可恥。</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>是啊，她們約定好了──「要兩個人一起回家」。</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>她也跟著站起了身子，沸騰的情緒驅使她露出了扭曲的笑容。<br>──原來我也是能感受到的，名為憤怒的情感。<br>「放心，你這東西根本不配對這個世界留下任何一言一語。」<br>語落，她拔出槍枝朝著對方長滿利齒的大嘴射出子彈。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>吸吸吐</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=65 手槍 (1D100&lt;=65) ＞ 49 ＞ 成功</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>1D10+2 (1D10+2) ＞ 8[8]+2 ＞ 10</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>好兇啊</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>好兇啊</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>有被骰子兇到</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>那不用第二發ㄌ</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>喔可能還是要(算錯ㄌ</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc22"><dt>白石 希空（偽物）</dt><dd class="FA">CCB&lt;=30 &lt;閃避&gt; (1D100&lt;=30) ＞ 80 ＞ 失敗</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>白石．．．</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>:killme:</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>你要繼續骰嗎</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>那再賭一次</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="FA">CCB&lt;=55 手槍 (1D100&lt;=55) ＞ 90 ＞ 失敗</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>嘖！</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>都兩次ㄌ　那就來第三次好ㄌ</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="C">CCB&lt;=45 手槍 (1D100&lt;=45) ＞ 1 ＞ 決定的成功/スペシャル</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>?</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>好神啊</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>？</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>幹</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>姊妹齊心</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>那是真的不用骰ㄌ</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc22"><dt>白石 希空（偽物）</dt><dd class="FA">CCB&lt;=30 怎麼可能閃得過 (1D100&lt;=30) ＞ 31 ＞ 失敗</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>好嘲諷啊</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>31...</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>阿阿阿...</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>31…</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你射出的子彈扎實地落在了那寄生著怪物的人體上頭，就算長著一副熟悉的面孔，你們仍然能對其殘忍下手——這就是你們，遺書屋。</dd></dl>
+	<dl class="tc2 nc22"><dt>白石 希空（偽物）</dt><dd>「操！這個身體果然是劣質品……！竟然被耍小聰明的人類……！！」大喊著、搖晃著。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>戰鬥結束 ┈┈┈┈┈┈<br><br>下一個瞬間，他的頭炸開了。<br>然而展現在你們面前的，是與之前的屍體不可同日而語的大量信息塗滿了地面。你們必須從填滿地面的無數文字中找到祛除Despair的方法。<br><br>請進行《偵查》檢定吧。</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd class="FA">CCB&lt;=75 (1D100&lt;=75) ＞ 82 ＞ 失敗</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>？</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd class="SU">CCB&lt;=70 (1D100&lt;=70) ＞ 44 ＞ 成功</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>快被嚇死</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>菖蒲從拋灑在地面的大量血字中找到了解除寄生的咒文。<br>要吟唱咒語嗎？</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>這樣是不是　只有菖蒲講注意到　可以跟椿講說嗎</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>對但是你們其中一個唸就可以ㄌ</dd></dl>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>我先星報洗澡一下</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>啊啊啊那我也😭😭</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>那我也要去</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>回</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>也回</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>回</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>從滿地的血字中找到了最關鍵的咒文，本想直接開口吟唱出來，但剛才「白石」的一連串行為不禁讓她有些警戒。<br>她久久凝視著咒文，似乎讓一旁的椿也注意到她異常的舉動。</dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「怎麼了嗎？菖蒲ちゃん。」看見菖蒲一動也不動，她走向對方並往她的視線看過去。<br>——啊～原來如此。<br>恍然大悟的椿將菖蒲摟過，溫柔的抱著她，輕撫著她的頭說道「沒事的，我一直都會在妳身邊，不用怕。」<br>鬆開手後，朝著對方露出微笑，就像往常一樣「相信姐姐吧。」語畢，她開始吟唱咒文。</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>你按照記述生硬地讀著，詠唱結束的瞬間，有什麽黑色的東西從花染樁的身上猛地湧出，強大的沖擊令樁倒地，怪物發出痛苦的呻吟再一次爬回他的身邊。<br>漆黑的肉塊覆蓋在身上，逐漸消失在淡淡的光芒中。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>奇怪的是樁並沒有感到疼痛，只是某一個瞬間失去了意識，然後很快又清醒過來。<br><br>黑色的肉塊已經消失了，既不存在於現實空間，也不存在於自己體內。<br>菖蒲見證了怪物的消失，看著姐姐的樣子，你們明白使人絕望之物——Despair已經消失了。</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>最後ㄉ自由RP時間！</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我剛剛還在想東想西</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>（自己想太多</dd></dl>
+	<p class="tc3 tab"><span>主頻道</span></p>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>「啊......」過於和平的落幕反倒讓她不知該如何反應。<br>她先是蹲下身子，攙扶住不敵巨大衝擊力而倒落在地的的椿，看來有些慌了陣腳。</dd></dl>
+	<dl class="tc3 nc3"><dt>花染菖蒲</dt><dd>還好嗎？有沒有哪裡痛？站得起來嗎？還認得出我是誰嗎？<br>她有太多問題想對眼前還在揉著雙眼的椿一一確認，但最終都只化作一個擁抱。<br>她遲來的回擁住自己唯一的家人，同時也是她最相信的搭檔。<br></dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>這是菖蒲第一次主動抱住自己，這讓她有點不知所措，但對方傳來的體溫也讓她感到安心，她回抱住對方說道「抱歉喔，讓妳擔心了。」<br></dd></dl>
+	<dl class="tc3 nc2"><dt>花染椿</dt><dd>「一起回家吧。」</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>要結了嗎🥺🥺🥺</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>豪🥺🫶</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>回過神來，已經不知道過了多久。<br>你們走出教堂，天空泛著魚肚白。再過不久陽光就會一如既往地宣告清晨的來臨。不久之前還令人恐懼的早晨，現在是如此使人平靜。<br>已經不再怕光了。</dd></dl>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>或許先前的委托對如今的你們來說已經沒有意義，但工作還沒結束。<br>你們身為「遺書屋」的工作還將繼續下去。你們將要留下的，是替死者傳達的話語，也是今後與各色人等來往的聲音。<br>還會有更多人聽到你們的傳聞，當認識你們的人聽到這個聲音的時候，他們會異口同聲地說：<br><br>「遺書屋來了。」<br>在這個已然墮落的世界裏，你們仍將遺書傳遞下去。</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>歌好有品味🫶🫶🫶</dd></dl>
+	<p class="tc2 tab"><span>メイン</span></p>
+	<dl class="tc2 nc4"><dt>ＫＰ</dt><dd>TRUE END<br>　　——『遺書屋』<br><br>全員生還 +1d10 SAN<br>TRUE END +1d6 SAN<br>擊敗希空(伊戈羅納克) +1d6 SAN<br>克蘇魯神話 +2%</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>🥺🥺🥺</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我剛剛才想到<br>ｏＯ啊．．．遺書．．．</dd></dl>
+	<dl class="tc0 nc2"><dt>花染椿</dt><dd>啊那個 是直接骰就好嗎</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>直接在這裡骰或是回DC骰都殼以</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>火老師我愛你（不要趁機</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>好好笑 你有寫嗎...</dd></dl>
+	<p class="tc0 tab"><span>閒聊</span></p>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>我想超認真欸！！！！</dd></dl>
+	<dl class="tc0 nc3"><dt>花染菖蒲</dt><dd>雖然到後面我自己都快忘記我寫過</dd></dl>
+	<p class="tc1 tab"><span>雑談</span></p>
+	<dl class="tc1 nc4"><dt>ＫＰ</dt><dd>那你們可以回DC公開（幹</dd></dl>
+
+</section>
+</main>
+<footer>CCFOLIAログコンバータ Ver0.8a</footer>
+<script type="text/javascript">
+const trigger = document.querySelectorAll(".select");
+trigger.forEach(function(target) {
+	target.addEventListener('change', function() {
+		const classname = target.id;
+		const arr = document.querySelectorAll("." + classname);
+		arr.forEach(function(value) {
+			value.style.display = target.checked ? '' : 'none';
+		});
+	});
+});
+</script>
+</body>
+</html>
